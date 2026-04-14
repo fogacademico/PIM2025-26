@@ -1,0 +1,29 @@
+main {
+  width: 95vw;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.menus {
+  width: 45vw;
+}
+
+.ocultar {
+  display: none;
+}
+
+.gestion-seleccion {
+  width: 45vw;
+  border: 2px solid black;
+  border-radius: 5px;
+}
+
+.btn-borrar-detalle {
+  font-weight: bold;
+  color: white;
+  background-color: #ff4444;
+  padding: 3px;
+  font-family: Arial;
+  border-radius: 5px;
+}
