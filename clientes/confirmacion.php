@@ -1,0 +1,115 @@
+<?php 
+session_start();
+
+//  INCOMPLETO
+
+require_once($_SERVER['DOCUMENT_ROOT'] . "/pim/include/funciones.php");
+
+$tipos_pedido_validos = ["domicilio", "recoger"];
+
+function calcularTotalPedido($datos_pedido){
+  $total_ped = 0;
+  foreach($datos_pedido["productos"] as $prod){
+    $total_prod = $prod["precio_ud"] * $prod["cantidad"];
+    $total_ped += $total_prod;
+  };
+  foreach($datos_pedido["pizzas"] as $piz){
+    $precio_piz = 0;
+    foreach($piz["ingredientes"] as $piz_ingr){
+      $precio_piz += $piz_ingr["precioIng"];
+    };
+    $total_piz = $precio_piz * $piz['cantidad'];
+    $total_ped += $total_piz;
+  };
+  return $total_ped;
+};
+
+
+if ($_SERVER['REQUEST_METHOD'] === "POST"){
+  inicioHtml("Customizza. Confirmar pedido", []);
+  // Traza
+  foreach ($_POST as $clave => $valor){
+    echo "<p>$clave -> $valor</p>";
+  };
+  
+  $datos_del_json = $_POST['detalles-pedido'];
+  $datos_del_json = json_decode($datos_del_json, true, 512, JSON_INVALID_UTF8_SUBSTITUTE);
+  $_SESSION['detalles-pedido'] = $datos_del_json; // Para transportarlos luego íntegros.
+
+  echo "<h4>Pedido registrado:</h4>";
+  echo "<h5>Productos:</h5>";
+  foreach($datos_del_json["productos"] as $prod){
+    $total_prod = $prod["precio_ud"] * $prod["cantidad"];
+    echo "<p>- {$prod["nombre"]}. {$prod["precio_ud"]} x {$prod["cantidad"]} = $total_prod Euros.</p>";
+  };
+   echo "<h5>Pizzas:</h5>";
+  foreach($datos_del_json["pizzas"] as $piz){
+    $precio_piz = 0;
+    $lista_ingr = "";
+    foreach($piz["ingredientes"] as $piz_ingr){
+      $precio_piz += $piz_ingr["precioIng"];
+      $lista_ingr .= "{$piz_ingr["nombre"]} - ";
+    };
+    $total_piz = $precio_piz * $piz['cantidad'];
+    echo "<p>- Pizza ($lista_ingr). $precio_piz x {$piz["cantidad"]} = $total_piz Euros.</p>";
+  };
+
+  echo "<h4>TOTAL PEDIDO: " . calcularTotalPedido($datos_del_json) . " Euros.</h4>";
+
+  echo "<h3>¿Qué quieres hacer con tu pedido?</h3>";
+  if (!isset($_POST['tipo_pedido']) && !in_array($_POST['tipo_pedido'], $tipos_pedido_validos)){
+    echo "<p>Tipo de pedido no válido. Quizá se deba a un fallo de conexión.</p>";
+    echo "<p><a href='../index.php'>Volver al menú principal.</a></p>";
+    finHtml(); 
+  }
+  else {
+    $tipo_pedido = $_POST['tipo_pedido'];
+    if (isset($_POST['nombre_cliente'])){
+    $nombre_cliente = filter_input(INPUT_POST, "nombre_cliente", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    };
+    if (isset($_POST['direccion'])){
+      $direccion = filter_input(INPUT_POST, "direccion", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    };
+    if (isset($_POST['tlf'])){
+      $tlf = filter_input(INPUT_POST, "tlf", FILTER_VALIDATE_INT) ? $_POST['tlf'] : null;
+    };
+    ?>
+    <form method="POST" action="enviar-pedido.php">
+      <input type="hidden" id="tipo_pedido" name="tipo_pedido" value="<?= $tipo_pedido ?>">
+
+      <?php
+      if (isset($nombre_cliente)){
+        echo "<input type='hidden' id='nombre_cliente' name='nombre_cliente' value='$nombre_cliente'>";
+      };
+      if ($tipo_pedido === "domicilio"){
+        echo "<input type='hidden' id='direccion' name='direccion' value='$direccion'>";
+        if (isset($tlf)){
+        echo "<input type='hidden' id='tlf' name='tlf' value='$tlf'>";
+        };
+      };
+      ?>
+      <input type="submit" id="operacion" name="operacion" value="Confirmar pedido">
+    </form>
+      <form method="POST" action="seleccion.php">
+      <input type="hidden" id="tipo_pedido" name="tipo_pedido" value="<?= $tipo_pedido ?>">
+
+      <?php
+      if (isset($nombre_cliente)){
+        echo "<input type='hidden' id='nombre_cliente' name='nombre_cliente' value='$nombre_cliente'>";
+      };
+      if ($tipo_pedido === "domicilio"){
+        echo "<input type='hidden' id='direccion' name='direccion' value='$direccion'>";
+        if (isset($tlf)){
+        echo "<input type='hidden' id='tlf' name='tlf' value='$tlf'>";
+        };
+      };
+      ?>
+      <input type="submit" id="operacion" name="operacion" value="Cambiar pedido">
+    </form>
+    <?php
+    finHtml();
+  };
+}
+else {header("Location: ../index.php");};
+
+?>
