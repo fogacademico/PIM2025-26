@@ -12,6 +12,7 @@ CREATE TABLE usuario (
 CREATE TABLE ingrediente (
     id_ing INT(5) AUTO_INCREMENT,
     nombre_ing VARCHAR(100) NOT NULL,
+    nombre_ing_en VARCHAR(100) NOT NULL,
     precio_ing DECIMAL(6,2),
     aptoparaceliacos_ing TINYINT(1) NOT NULL DEFAULT 0,
     PRIMARY KEY (id_ing)
@@ -62,6 +63,7 @@ CREATE TABLE domicilio (
 CREATE TABLE producto (
     id_prod INT (6) AUTO_INCREMENT,
     nombre VARCHAR(100) NOT NULL,
+    nombre_en VARCHAR(100) NOT NULL,
     precio_ud DECIMAL(6,2) NOT NULL,
     PRIMARY KEY (id_prod)
 );
