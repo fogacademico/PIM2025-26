@@ -10,6 +10,12 @@ $catalogo_ing = [];
 $masas = 18;
 $bases = 3;
 
+// Gestión de idiomas soportados por la aplicación 
+$idiomas_validos = ["es", "en"];
+$idioma = isset($_POST['form_idioma']) && in_array($_POST['form_idioma'], $idiomas_validos) ? $_POST['form_idioma'] : "es";
+
+$campos_idiomas_pizza = ["es" => "nombre_ing", "en" => "nombre_ing_en"];
+
 $db_key = obtenerClavesBD();
 
 // Recogemos los datos del formulario anterior
@@ -36,7 +42,7 @@ $stmt = $pdo->query($sentence);
 $stmt->execute();
 $filas = $stmt->fetchAll();
 foreach($filas as $fila){
-  $catalogo_productos[$fila['id_prod']] = ["nombre" => $fila['nombre'], "precio_ud" => $fila['precio_ud']];
+  $catalogo_productos[$fila['id_prod']] = ["nombre" => $fila['nombre'], "nombre_en" => $fila['nombre_en'], "precio_ud" => $fila['precio_ud']];
 };
 }
 catch(PDOException $pdoe){mostrarError($pdoe);}
@@ -53,7 +59,7 @@ $stmt = $pdo->query($sentence);
 $stmt->execute();
 $filas = $stmt->fetchAll();
 foreach($filas as $fila){
-  $catalogo_ing[$fila['id_ing']] = ["nombre_ing" => $fila['nombre_ing'], "precio_ing" => $fila['precio_ing'], 
+  $catalogo_ing[$fila['id_ing']] = ["nombre_ing" => $fila['nombre_ing'], "nombre_ing_en" => $fila['nombre_ing_en'], "precio_ing" => $fila['precio_ing'], 
   "aptoparaceliacos_ing" => $fila['aptoparaceliacos_ing']];
 };
 }
@@ -75,10 +81,18 @@ inicioHtml("Customizza. Selección", ["../style/seleccion.css"]);
     <?php
     foreach ($catalogo_productos as $clave => $valor){
       if ($clave != 1){
-        echo "<div><label for='producto-{$clave}'>{$valor['nombre']} </label>";
-        echo "<input type='number' id='producto-{$clave}' name='producto-{$clave}' data-nombreprod='{$valor['nombre']}'
-        data-precioprod='{$valor['precio_ud']}' min='1' value='1' class='input-producto'
-        ><button id='btn-prod-$clave' class='boton-producto'>Añadir al pedido</button></div><br/>";
+        if ($idioma === "es"){
+          echo "<div><label for='producto-{$clave}'>{$valor['nombre']} </label>";
+          echo "<input type='number' id='producto-{$clave}' name='producto-{$clave}' data-nombreprod='{$valor['nombre']}'
+          data-precioprod='{$valor['precio_ud']}' min='1' value='1' class='input-producto'
+          ><button id='btn-prod-$clave' class='boton-producto'>Añadir al pedido</button></div><br/>";
+        }
+        else if ($idioma === "en"){
+          echo "<div><label for='producto-{$clave}'>{$valor['nombre_en']} </label>";
+          echo "<input type='number' id='producto-{$clave}' name='producto-{$clave}' data-nombreprod='{$valor['nombre_en']}'
+          data-precioprod='{$valor['precio_ud']}' min='1' value='1' class='input-producto'
+          ><button id='btn-prod-$clave' class='boton-producto'>Add to the order</button></div><br/>";
+        };
       };
     };
     ?>
@@ -99,9 +113,9 @@ inicioHtml("Customizza. Selección", ["../style/seleccion.css"]);
         };
         $tiene_gluten = $valor['aptoparaceliacos_ing'] ? "true" : "false";
         $display_masa = $tiene_gluten === "false" ? "" : "ocultar";
-        echo "<option id='ingr-{$clave}' name='masa' data-nombreingr='{$valor['nombre_ing']}'
+        echo "<option id='ingr-{$clave}' name='masa' data-nombreingr='{$valor[$campos_idiomas_pizza[$idioma]]}'
         data-precioingr='{$valor['precio_ing']}' value='$clave' data-gluten='$tiene_gluten'
-        class='tipo-masa $display_masa'>{$valor['nombre_ing']}</option>";
+        class='tipo-masa $display_masa'>{$valor[$campos_idiomas_pizza[$idioma]]}</option>";
         if ($clave === $masas){
           echo "</select>";
         };
@@ -111,15 +125,15 @@ inicioHtml("Customizza. Selección", ["../style/seleccion.css"]);
           echo "<h5>Base</h5>";
           echo "<p>Elegir al menos una.</p>";
         };
-      if ($valor['nombre_ing'] === "Mozzarella"){
-          echo "<input type='checkbox' id='ingr-{$clave}' name='bases' data-nombreingr='{$valor['nombre_ing']}'
+      if ($valor[$campos_idiomas_pizza[$idioma]] === "Mozzarella"){
+          echo "<input type='checkbox' id='ingr-{$clave}' name='bases' data-nombreingr='{$valor[$campos_idiomas_pizza[$idioma]]}'
           data-precioingr='{$valor['precio_ing']}' value='$clave' checked>";
-          echo "<label for='ingr-{$clave}'>{$valor['nombre_ing']} <label><br/>";
+          echo "<label for='ingr-{$clave}'>{$valor[$campos_idiomas_pizza[$idioma]]} <label><br/>";
         }
       else {
-        echo "<input type='checkbox' id='ingr-{$clave}' name='bases' data-nombreingr='{$valor['nombre_ing']}'
+        echo "<input type='checkbox' id='ingr-{$clave}' name='bases' data-nombreingr='{$valor[$campos_idiomas_pizza[$idioma]]}'
         data-precioingr='{$valor['precio_ing']}' value='$clave'>";
-        echo "<label for='ingr-{$clave}'>{$valor['nombre_ing']} <label><br/>"; 
+        echo "<label for='ingr-{$clave}'>{$valor[$campos_idiomas_pizza[$idioma]]} <label><br/>"; 
         };
       }
       else {
@@ -127,9 +141,9 @@ inicioHtml("Customizza. Selección", ["../style/seleccion.css"]);
           echo "<h5>Ingredientes</h5>";
           echo "<p>Elegir máximo 5.</p>";
           };
-          echo "<input type='checkbox' id='ingr-{$clave}' name='toppings' data-nombreingr='{$valor['nombre_ing']}'
+          echo "<input type='checkbox' id='ingr-{$clave}' name='toppings' data-nombreingr='{$valor[$campos_idiomas_pizza[$idioma]]}'
           data-precioingr='{$valor['precio_ing']}' value='$clave'>";
-          echo "<label for='ingr-{$clave}'>{$valor['nombre_ing']} <label><br/>"; 
+          echo "<label for='ingr-{$clave}'>{$valor[$campos_idiomas_pizza[$idioma]]} <label><br/>"; 
         };
     };
     echo "<br/><label for='producto-{$clave}'>Cantidad de pizzas de este tipo: <label>";
