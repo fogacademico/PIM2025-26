@@ -22,9 +22,9 @@ function obtenerClavesBD(){
 };
 
 
-function inicioHtml(string $titulo = "Sin título", array $estilos = []) { ?>
+function inicioHtml(string $titulo = "Sin título", array $estilos = [], $lang = "es") { ?>
   <!DOCTYPE html>
-  <html lang="es">
+  <html lang="<?= $lang ?>">
     <head>
       <title><?=$titulo?></title>
       <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
@@ -39,9 +39,10 @@ function inicioHtml(string $titulo = "Sin título", array $estilos = []) { ?>
 <?php
 }
 
-function inicioHtmlAutoReload(string $titulo = "Sin título", int $segundos = 60, array $estilos = []) { ?>
+function inicioHtmlAutoReload(string $titulo = "Sin título", int $segundos = 60, array $estilos = [], 
+$lang = "es") { ?>
   <!DOCTYPE html>
-  <html lang="es">
+  <html lang="<?= $lang ?>">
     <head>
       <title><?=$titulo?></title>
       <meta name="viewport" content="width=device-width,initial-scale=1.0"/>

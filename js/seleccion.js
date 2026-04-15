@@ -1,11 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
 
   // FALTA POR HACER:
-  // - Si el cliente avanza a confirmacion.php y no está conforme con su pedido, 
-  // que pueda ir atrás sin perderlo todo.
 
   // - Todo lo de los idiomas.
-  // - Conexión con base de datos.
 
   // Variables
   let maximoToppings = 5;
