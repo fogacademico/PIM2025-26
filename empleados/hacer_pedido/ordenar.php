@@ -1,8 +1,8 @@
 <?php 
 session_start();
 
-require_once($_SERVER['DOCUMENT_ROOT'] . "/pim/include/funciones.php");
-require_once($_SERVER['DOCUMENT_ROOT'] . "/pim/jwt/include_jwt.php");
+require_once($_SERVER['DOCUMENT_ROOT'] . "/include/funciones.php");
+require_once($_SERVER['DOCUMENT_ROOT'] . "/jwt/include_jwt.php");
 
 function comprobarJWT(){
 
@@ -42,6 +42,9 @@ inicioHtml("Customizza Empleados. Ordenar una pizza", []);
 
   <main>
     <h2>¿Qué deseas hacer?</h2>
+    <h1>ADVERTENCIA: EN ESTA VERSIÓN NO FUNCIONA BIEN EL HACER PEDIDOS A RECOGER
+      DESDE LA WEB DE LOS EMPLEADOS. HACER DESDE AQUÍ SÓLO PEDIDOS A DOMICILIO.
+    </h1>
 
     <div class="buttons">
       <button onclick="window.location.href='pedido.php?tipo=domicilio'">Pedir a domicilio</button> <!-- Domicilio-->

@@ -27,8 +27,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let envioJson = document.getElementById("detalles-pedido");
 
+  let botonEnviarPedido = document.getElementById("operacion");
+  let enviarPedido = document.getElementById("enviar-pedido");
+
   // JSON del pedido que se devolverá a servidor
   let detallesPedido = {
+    productos : {},
+    pizzas : {}
+  };
+
+  // Poco elegante, lo sé
+  let detallesPedidoVacios = {
     productos : {},
     pizzas : {}
   };
@@ -38,17 +47,20 @@ document.addEventListener("DOMContentLoaded", () => {
     optionsMasas.forEach((masa) => masa.classList.toggle("ocultar"));
   };
 
-  function incluirProducto(productTag){
+  function incluirProducto(productTag){ // Meterle idiomas
       let idProd = productTag.id;
       idProd = idProd.slice(9);
       detallesPedido['productos'][idProd] = {
-        nombre: productTag.dataset.nombreprod,
         cantidad: productTag.value,
         precio_ud: productTag.dataset.precioprod
       };
+      if (localStorage.getItem("language") === "en"){
+        detallesPedido['productos'][idProd]["nombre"] = productTag.dataset.nombreproden;
+      }
+      else {detallesPedido['productos'][idProd]["nombre"] = productTag.dataset.nombreprod;};
   };
 
-  function incluirPizza(listaIngr){
+  function incluirPizza(listaIngr){ // Meterle idiomas
     let pizzaIds = Object.keys(detallesPedido.pizzas);
     let interruptor = true;
     let i = 0;
@@ -65,13 +77,17 @@ document.addEventListener("DOMContentLoaded", () => {
     listaIngr.forEach((x) => {
       detallesPedido['pizzas'][i]['ingredientes'][x.value] = 
       {
-        nombre: x.dataset.nombreingr,
         precioIng: x.dataset.precioingr
       };
+      if (localStorage.getItem("language") === "en"){
+        detallesPedido['pizzas'][i]["ingredientes"][x.value]["nombre"] = x.dataset.nombreingren;
+      }
+      else {detallesPedido['pizzas'][i]["ingredientes"][x.value]["nombre"] = x.dataset.nombreingr;};
     });  
   };
 
   function eliminarDetallePedido(productTag){
+    console.log(productTag);
     let idDetalle = productTag.className;
     idDetalle = idDetalle.slice(9);
     let tipoDetalle = productTag.dataset.tipo;
@@ -87,12 +103,14 @@ document.addEventListener("DOMContentLoaded", () => {
       let detallePedido = document.createElement("li");
       let textoDetalle = document.createElement("span");
       let botonDetalle = document.createElement("span");
-      textoDetalle.classList.add(`escogido-${clave}`);
-      textoDetalle.setAttribute("data-tipo", "producto");
-      botonDetalle.classList.add("btn-borrar-detalle");
-      textoDetalle.textContent = `${valor.nombre} x ${valor.cantidad} = ${valor.precio_ud * valor.cantidad} Euros. `;
+      detallePedido.classList.add(`escogido-${clave}`);
+      detallePedido.setAttribute("data-tipo", "producto");
+      textoDetalle.setAttribute("data-i18n", `producto_${clave}`);
+      botonDetalle.classList.add("btn-borrar-detalle")
+      textoDetalle.textContent = `${valor.nombre}`;
       botonDetalle.textContent = "X";
       detallePedido.appendChild(textoDetalle);
+      detallePedido.appendChild(document.createTextNode(` x ${valor.cantidad} = ${valor.precio_ud * valor.cantidad} Euros. `));
       detallePedido.appendChild(botonDetalle);
       panelSeleccionados.appendChild(detallePedido); 
     });
@@ -102,24 +120,31 @@ document.addEventListener("DOMContentLoaded", () => {
       let cantidadDetalle = datosDetalle.cantidad;
       ingredientesDetalle = datosDetalle.ingredientes;
       let detallePedido = document.createElement("li");
-      let textoDetalle = document.createElement("span");
       let botonDetalle = document.createElement("span");
-      textoDetalle.classList.add(`escogido-${clavePizza}`);
-      textoDetalle.setAttribute("data-tipo", "pizza");
+      detallePedido.classList.add(`escogido-${clavePizza}`);
+      detallePedido.setAttribute("data-tipo", "pizza");
       botonDetalle.classList.add("btn-borrar-detalle");
-      let contenidoDetalle = "Pizza (";
+      detallePedido.appendChild(document.createTextNode("Pizza: ("));
       let precioDetalle = 0;
-      Object.values(ingredientesDetalle).forEach((y) => {
-        contenidoDetalle += `${y.nombre} - `;
-        precioDetalle += parseFloat(y.precioIng);
+      Object.entries(ingredientesDetalle).forEach((y) => {
+        let [claveIngr, datosIngr] = y;
+        let textoDetalle = document.createElement("span");
+        textoDetalle.setAttribute("data-i18n", `ingr_${claveIngr}`);
+        textoDetalle.textContent = `${datosIngr.nombre} - `;
+        detallePedido.appendChild(textoDetalle);
+        detallePedido.appendChild(document.createTextNode(` - `));
+        precioDetalle += parseFloat(datosIngr.precioIng);
       });
-      contenidoDetalle += `) - ${precioDetalle} x ${cantidadDetalle} =  ${precioDetalle * cantidadDetalle} Euros`;
-      textoDetalle.textContent = contenidoDetalle;
       botonDetalle.textContent = "X";
-      detallePedido.appendChild(textoDetalle);
+      detallePedido.appendChild(document.createTextNode(`) - ${precioDetalle} x ${cantidadDetalle} =  
+        ${precioDetalle * cantidadDetalle} Euros`));
       detallePedido.appendChild(botonDetalle);
       panelSeleccionados.appendChild(detallePedido); 
     });
+    let currentLang = "";
+    if (localStorage.getItem("language")){currentLang = localStorage.getItem("language");} 
+    else {currentLang = "es"};
+    applyLanguage(currentLang);
   };
 
   function calcularPrecioPedido(){
@@ -127,7 +152,6 @@ document.addEventListener("DOMContentLoaded", () => {
     let arrayProductos = Object.values(detallesPedido.productos);
     arrayProductos.forEach((x) => {precioTotal += (x.precio_ud * x.cantidad);});
     let arrayPizzas = Object.values(detallesPedido.pizzas);
-    console.log(arrayPizzas);
     arrayPizzas.forEach((x) => {
       let npizzas = parseFloat(x.cantidad);
       let precioUnaPizza = 0;
@@ -214,7 +238,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Elimina un detalle del pedido y deja de mostrarlo
-  panelSeleccionados.addEventListener("click", function(e, inputDetalle = e.target.parentNode.childNodes[0]){
+  panelSeleccionados.addEventListener("click", function(e, inputDetalle = e.target.parentNode){
     if (e.target.className === "btn-borrar-detalle"){
       eliminarDetallePedido(inputDetalle);
       mostrarDetallesPedido();
@@ -222,5 +246,16 @@ document.addEventListener("DOMContentLoaded", () => {
       envioJson.value = JSON.stringify(detallesPedido);
     };
   });
+
+  // Comprueba si el pedido está vacío y si no lo está, permite el envío
+  botonEnviarPedido.addEventListener("click", function(e){
+    e.preventDefault();
+    if (envioJson.value === "" || envioJson.value === "{\"productos\":{},\"pizzas\":{}}"){
+      alert("No se pueden enviar pedidos vacíos. \nEmpty orders are not allowed.");
+    }
+    else {
+      enviarPedido.submit();
+    };
+  })
 
 });

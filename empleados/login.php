@@ -1,7 +1,6 @@
 <?php 
 session_start();
-// QUITAR REFERENCIAS A LA CARPETA PIM EN VERSIONES POSTERIORES
-require_once($_SERVER['DOCUMENT_ROOT'] . "/pim/include/funciones.php");
+require_once($_SERVER['DOCUMENT_ROOT'] . "/include/funciones.php");
 
 $errors = [];
 

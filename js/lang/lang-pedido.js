@@ -8,6 +8,7 @@ const translations = {
         phone: "Teléfono",
         customer_name: "Pedido a nombre de...",
         submit_button: "Continuar",
+        goback_button: "Volver atrás",
         footer: "2026 Customizza | Proyecto 2º Desarrollo de Aplicaciones Web"
     },
     en: {
@@ -19,6 +20,7 @@ const translations = {
         phone: "Phone",
         customer_name: "Order made by...",
         submit_button: "Continue",
+        goback_button: "Go back",
         footer: "2026 Customizza | Web Applications Development Degree's 2nd year Project."
     }
 };
@@ -54,18 +56,18 @@ function applyLanguage(lang) {
 document.addEventListener("DOMContentLoaded", () => {
 
     const lang = localStorage.getItem("language") || "es";
-    document.getElementById("form_idioma").value = lang;
+    // document.getElementById("form_idioma").value = lang;
     applyLanguage(lang);
 
     botonEs.addEventListener("click", function(e){
         setLanguage("es");
-        document.getElementById("form_idioma").value = "es";
+        // document.getElementById("form_idioma").value = "es";
         applyLanguage("es");
     });
 
     botonEn.addEventListener("click", function(e){
         setLanguage("en");
-        document.getElementById("form_idioma").value = "en";
+        // document.getElementById("form_idioma").value = "en";
         applyLanguage("en");
     });
 });

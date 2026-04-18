@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-require_once($_SERVER['DOCUMENT_ROOT'] . "/pim/include/funciones.php");
+require_once($_SERVER['DOCUMENT_ROOT'] . "/include/funciones.php");
 
 $tipos_pedido_validos = ["domicilio", "recoger"];
 
@@ -14,22 +14,25 @@ if ($_SERVER['REQUEST_METHOD'] === "POST"){
   if (!isset($_SESSION['detalles-pedido']) || gettype($_SESSION['detalles-pedido']) != "array" 
   || !json_encode($_SESSION['detalles-pedido'])){
     inicioHtml("Error al enviar pedido", []);
-    echo "<h2>No se ha recibido ningún pedido detallado.</h2>";
-    echo "<p><a href='../index.php'>Volver al menú principal.</a></p>";
+    echo "<h2 data-i18n='error_msg3'>No se ha recibido ningún pedido detallado.</h2>";
+    echo "<p><a href='../index.php' data-i18n='go_back'>Volver al menú principal.</a></p>";
+    echo "<script src='../js/lang/lang-finalpedido.js'></script>";
     finHtml();
   }
   else if (!isset($_POST['tipo_pedido']) || !in_array($_POST['tipo_pedido'], $tipos_pedido_validos)){
     inicioHtml("Error al enviar pedido", []);
-    echo "<h2>Tipo de pedido no especificado o incorrecto. 
+    echo "<h2 data-i18n='error_msg4'>Tipo de pedido no especificado o incorrecto. 
     No sabemos si vienes tú a por la pizza o te la llevamos nosotros.</h2>";
-    echo "<p><a href='../index.php'>Volver al menú principal.</a></p>";
+    echo "<p><a href='../index.php' data-i18n='go_back'>Volver al menú principal.</a></p>";
+    echo "<script src='../js/lang/lang-finalpedido.js'></script>";
     finHtml();
   }
   else if ($_POST['tipo_pedido'] === "domicilio" && 
   (!isset($_POST['direccion']) || !$_POST['direccion'] || gettype($_POST['direccion']) != "string")){
     inicioHtml("Error al enviar pedido", []);
-    echo "<h2>Domicilio no especificado en un pedido a domicilio.</h2>";
-    echo "<p><a href='../index.php'>Volver al menú principal.</a></p>";
+    echo "<h2 data-i18n='error_msg5'>Domicilio no especificado en un pedido a domicilio.</h2>";
+    echo "<p><a href='../index.php' data-i18n='go_back'>Volver al menú principal.</a></p>";
+    echo "<script src='../js/lang/lang-finalpedido.js'></script>";
     finHtml();
   }
 

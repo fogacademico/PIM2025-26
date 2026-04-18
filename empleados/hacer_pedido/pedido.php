@@ -1,8 +1,8 @@
 <?php 
 session_start();
 
-require_once($_SERVER['DOCUMENT_ROOT'] . "/pim/include/funciones.php");
-require_once($_SERVER['DOCUMENT_ROOT'] . "/pim/jwt/include_jwt.php");
+require_once($_SERVER['DOCUMENT_ROOT'] . "/include/funciones.php");
+require_once($_SERVER['DOCUMENT_ROOT'] . "/jwt/include_jwt.php");
 
 function comprobarJWT(){
 
@@ -28,23 +28,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && $_GET['tipo'] === "domicilio"){
   ?>
   <header>
     <h1>Customizza</h1>
-    <p>Pizzas para todos los gustos</p>
+    <p data-i18n="slogan">Pizzas para todos los gustos</p>
+    <img id="boton-es" src="../../imgs/banderaesp.png" class="boton-idioma">
+    <img id="boton-en" src="../../imgs/banderauk.jpg" class="boton-idioma">
   </header>
 
   <div class="container">
-    <h2>Datos Personales</h2>
+    <h2 data-i18n="form_title_delivery">Información de la entrega</h2>
     <form id="formDatos" action="seleccion.php" method="post">
       <input type="hidden" id="tipo_pedido" name="tipo_pedido" value="domicilio">
-      <input type="text" id="direccion" name="direccion" placeholder="Dirección" required>
-      <input type="tel" id="number" name="tlf" placeholder="Teléfono" min="1" max="999999999">
-      <input type="text" id="nombre_cliente" name="nombre_cliente" placeholder="Pizza a nombre de...">
-      <input type="submit" value="Continuar">
+      <!--<input type="hidden" id="form_idioma" name="form_idioma" value="es">-->
+      <input data-i18n-placeholder="address" type="text" id="direccion" name="direccion" placeholder="Dirección" required>
+      <input data-i18n-placeholder="phone" type="tel" id="number" name="tlf" placeholder="Teléfono" min="1" max="999999999">
+      <input data-i18n-placeholder="customer_name" type="text" id="nombre_cliente" name="nombre_cliente" placeholder="Pedido a nombre de...">
+      <input data-i18n-value="submit_button" type="submit" value="Continuar">
     </form>
   </div>
-
+  <p><a data-i18n="goback_button" href="../lobby.php">Volver atrás</a></p>
   <footer>
-    <p>Placeholderdelfooter</p>
+    <p data-i18n="footer">2026 Customizza | Proyecto 2º Desarrollo de Aplicaciones Web</p>
   </footer>
+  <script src="../../js/lang/lang-pedido.js"></script>
   <?php
   finHtml();
 }
@@ -56,18 +60,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && $_GET['tipo'] === "recoger"){
   ?>
   <header>
     <h1>Customizza</h1>
-    <p>Pizzas para todos los gustos</p>
+    <p data-i18n="slogan">Pizzas para todos los gustos</p>
+    <img id="boton-es" src="../../imgs/banderaesp.png" class="boton-idioma">
+    <img id="boton-en" src="../../imgs/banderauk.jpg" class="boton-idioma">
   </header>
-  <h1>Hacer pedido</h1>
+  <h2 data-i18n="form_title_takeaway">Hacer pedido</h2>
     <form action="seleccion.php" method="POST">
       <input type="hidden" id="tipo_pedido" name="tipo_pedido" value="recoger">
-      <label for="nombre_cliente">Nombre:</label>
-      <input type="text" id="nombre_cliente" name="nombre_cliente" placeholder="Pizza a nombre de... " />
-      <input type="submit" value="Continuar">
+      <!--<input type="hidden" id="form_idioma" name="form_idioma" value="es">-->
+      <label data-i18n="name_title1" for="nombre_cliente">Nombre:</label>
+      <input data-i18n-placeholder="customer_name" type="text" id="nombre_cliente" name="nombre_cliente" placeholder="Pedido a nombre de..." required>
+      <input data-i18n-value="submit_button" type="submit" value="Continuar">
     </form>
+    <p><a data-i18n="goback_button" href="../lobby.php">Volver atrás</a></p>
     <footer>
-    <p>Placeholderdelfooter</p>
+    <p data-i18n="footer">2026 Customizza | Proyecto 2º Desarrollo de Aplicaciones Web</p>
   </footer>
+  <script src="../../js/lang/lang-pedido.js"></script>
   <?php
   finHtml();
 }

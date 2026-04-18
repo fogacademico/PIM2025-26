@@ -1,7 +1,7 @@
 <?php 
 session_start();
-require_once($_SERVER['DOCUMENT_ROOT'] . "/pim/include/funciones.php");
-require_once($_SERVER['DOCUMENT_ROOT'] . "/pim/jwt/include_jwt.php");
+require_once($_SERVER['DOCUMENT_ROOT'] . "/include/funciones.php");
+require_once($_SERVER['DOCUMENT_ROOT'] . "/jwt/include_jwt.php");
 
 function comprobarJWT(){
 
