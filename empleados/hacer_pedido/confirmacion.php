@@ -21,7 +21,7 @@ $nombre_cuenta = $usuario['nombre_cuenta'];
 $rango = $usuario['rango'];
 $nombre_usuario = $usuario['nombre_usuario'];
 
-$tipos_pedido_validos = ["domicilio", "recoger"];
+$tipos_pedido_validos = ["domicilio", "recoger", "mesa"];
 $detalles_pedido_vacios = ["productos" => [], "pizzas" => []];
 
 function calcularTotalPedido($datos_pedido){
@@ -68,7 +68,14 @@ if ($_SERVER['REQUEST_METHOD'] === "POST"){
       $direccion = filter_input(INPUT_POST, "direccion", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     };
     if (isset($_POST['tlf'])){
-      $tlf = filter_input(INPUT_POST, "tlf", FILTER_VALIDATE_INT) ? $_POST['tlf'] : null;};
+      $tlf = filter_input(INPUT_POST, "tlf", FILTER_VALIDATE_INT) ? $_POST['tlf'] : null;
+    };
+    if (isset($_POST['comensales'])){
+      $comensales = filter_input(INPUT_POST, "comensales", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    };
+    if (isset($_POST['fecha'])){
+      $fecha = filter_input(INPUT_POST, "fecha", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    };
 
     inicioHtml("Customizza. Confirmar pedido", []);
 
@@ -92,6 +99,11 @@ if ($_SERVER['REQUEST_METHOD'] === "POST"){
 
   echo "<h4><span data-i18n='import_title'>TOTAL PEDIDO: </span>" . calcularTotalPedido($datos_del_json) . " Euros.</h4>";
 
+  print_r($_POST);
+  echo "<p>traza: {$_POST['comensales']}</p>";
+  $traza = isset($comensales) ? "Se detecta" : "No se detecta";
+  echo "<p>$traza</p>";
+
   echo "<h3 data-i18n='navigation'>¿Qué quieres hacer con tu pedido?</h3>";
     ?>
     <form method="POST" action="enviar-pedido.php">
@@ -106,9 +118,17 @@ if ($_SERVER['REQUEST_METHOD'] === "POST"){
         if (isset($tlf)){
         echo "<input type='hidden' id='tlf' name='tlf' value='$tlf'>";
         };
+      }
+      if ($tipo_pedido === "mesa"){
+        if (isset($comensales)){
+        echo "<input type='hidden' id='comensales' name='comensales' value='$comensales'>";
+        };
+        if (isset($fecha)){
+        echo "<input type='hidden' id='fecha' name='fecha' value='$fecha'>";
+        };
       };
       ?>
-      <input type="submit" id="operacion" name="operacion"  data-i18n-value="send_order" value="Confirmar pedido">
+      <input type="submit" id="operacion1" name="operacion1"  data-i18n-value="send_order" value="Confirmar pedido">
     </form>
       <form method="POST" action="seleccion.php">
       <input type="hidden" id="tipo_pedido" name="tipo_pedido" value="<?= $tipo_pedido ?>">
@@ -122,9 +142,17 @@ if ($_SERVER['REQUEST_METHOD'] === "POST"){
         if (isset($tlf)){
         echo "<input type='hidden' id='tlf' name='tlf' value='$tlf'>";
         };
+      }
+            if ($tipo_pedido === "mesa"){
+        if (isset($comensales)){
+        echo "<input type='hidden' id='comensales' name='comensales' value='$comensales'>";
+        };
+        if (isset($fecha)){
+        echo "<input type='hidden' id='fecha' name='fecha' value='$fecha'>";
+        };
       };
       ?>
-      <input type="submit" id="operacion" name="operacion" data-i18n-value="back_to_selection" value="Cambiar pedido">
+      <input type="submit" id="operacion2" name="operacion2" data-i18n-value="back_to_selection" value="Cambiar pedido">
     </form>
     <script src="../../js/lang/lang-confirmacion.js"></script>
     <?php

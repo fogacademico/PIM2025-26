@@ -1,9 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  // FALTA POR HACER:
-
-  // - Todo lo de los idiomas.
-
   // Variables
   let maximoToppings = 5;
 

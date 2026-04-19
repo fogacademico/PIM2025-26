@@ -13,6 +13,9 @@ inicioHtml("Customizza. Fin pedido", ["../style/css2.css"]);
 if (isset($listaErrores) && sizeof($listaErrores) > 0){
   echo "<h4 data-i18n='error_msg1'>Ha habido un error al enviar tu pedido. Llama por teléfono a Customizza o contacta con un empleado
   de la pizzería para comprobar si tu pedido se ha recibido correctamente o no.</h4>";
+  foreach ($listaErrores as $error){
+    echo "<p>$error</p>";
+  }
   echo "<h4 data-i18n='error_msg2'>El número del pedido potencialmente afectado es el</h4>";
   echo "<h1>$npedido</h1>";
   echo "<h5><span data-i18n='phone_text'>Teléfono de Customizza: </span>957420111</h5>";

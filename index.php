@@ -24,7 +24,7 @@
     <div class="buttons">
       <button data-i18n="delivery" onclick="window.location.href='./clientes/pedido.php?tipo=domicilio'">Pedir a domicilio</button> <!-- Domicilio-->
       <button data-i18n="takeaway" onclick="window.location.href='./clientes/pedido.php?tipo=recoger'">Pedir para recoger en local</button> <!--Recoger (Lleva a pedido luego)-->
-      <button data-i18n="book_table" onclick="window.location.href='./clientes/mesa.html'">Reservar mesa</button> <!--Elegir mesa-->
+      <button data-i18n="book_table" onclick="window.location.href='./clientes/pedido.php?tipo=mesa'">Reservar mesa</button> <!--Elegir mesa-->
     </div>
 
     <div class="login">

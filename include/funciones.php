@@ -21,6 +21,16 @@ function obtenerClavesBD(){
   return $db_keys;
 };
 
+// POLITICA DE MESAS
+function obtenerDatosMesas(){
+  $datos_mesas = [
+    "cantidad_mesas" => 10,
+    "comensales_por_mesa" => 6,
+    "duracion_uso_mesa" => 60 // Estimada. En minutos.
+  ];
+  return $datos_mesas;
+};
+
 
 function inicioHtml(string $titulo = "Sin título", array $estilos = [], $lang = "es") { ?>
   <!DOCTYPE html>
@@ -87,7 +97,6 @@ function apuntarError(Exception $e, $listaErrores){
       <tr><th>Archivo</th><td>{$e->getFile()}</td></tr>
       <tr><th>Línea</th><td>{$e->getLine()}</td></tr>
   ERROR;
-  $errorx = "(..)";
   array_push($listaErrores, $error);
   return $listaErrores;
 };
@@ -236,6 +245,11 @@ function obtenerTipoPedido($idpedido){
     }
 }
 
+/* 
+FUNCIONES DE GESTIÓN DE RESERVA DE MESAS 
+*/
+
+// ESTA FUNCION NO ESTÁ EN USO ACTUALMENTE
 function avisaSiMesaLibre($nmesa){ // TO FIX. DEFINIR UNA POLITICA DE RESERVAS CLARA
   $status = true;
   $hora_reserva = "ERROR. La función que avisa si las mesas están libres está funcionando mal.";
@@ -262,12 +276,74 @@ function avisaSiMesaLibre($nmesa){ // TO FIX. DEFINIR UNA POLITICA DE RESERVAS C
     $stmt = null;
     return [$status, $hora_reserva];
   };
-  
+};
 
+function ubicarEnMesas($fecha, $ncomensales){
+  $politica_mesas = obtenerDatosMesas();
+  $margen_reserva = date('Y-m-d H:i:s', strtotime($fecha) - ($politica_mesas['duracion_uso_mesa'] * 60));
+  $mesas_existentes = range(1, 10);
+  $mesas_ocupadas = [];
+  $db_key = obtenerClavesBD();
+  try {
+    $pdo = new PDO($db_key[0], $db_key[1], $db_key[2], $db_key[3]);
+    $sentence = "SELECT me.nmesa FROM mesa AS me INNER JOIN pedido AS pe ON me.id_pedido = pe.id_pedido ";
+    $sentence .= "WHERE pe.estado != 'cancelado' AND me.hora_reserva <= :fecha_r AND me.hora_reserva >= :margen_r";
+    $stmt = $pdo->prepare($sentence);
+    $stmt->bindValue(":fecha_r", $fecha);
+    $stmt->bindValue(":margen_r", $margen_reserva);
+    $stmt->execute();
+    $filas = $stmt->fetchAll();
+    foreach ($filas as $fila){$mesas_ocupadas[] = $fila['nmesa'];};
+  }
+  catch (PDOException $pdoe){apuntarError($pdoe, []);}
+  finally {
+    $pdo = null;
+    $stmt = null;
+    if (array_diff($mesas_existentes, $mesas_ocupadas) === []){return false;}
+    else {
+      $mesas_disponibles = array_diff($mesas_existentes, $mesas_ocupadas);
+      $mesas_requeridas = intdiv($ncomensales, $politica_mesas['comensales_por_mesa']) + 
+      ($ncomensales % $politica_mesas['comensales_por_mesa'] ? 1 : 0);
+      if (sizeof($mesas_disponibles) < $mesas_requeridas){return false;}
+      else {
+        $mesas_asignables = [];
+        for($i=0;$i<$mesas_requeridas;$i++){$mesas_asignables[] = $mesas_disponibles[$i];};
+        return $mesas_asignables;
+      };
+    };
+  };
+};
 
-  /*
-  
-  */
+function asignarMesas($npedido, $fecha, $lista_mesas, $ncomensales, $errores = []){
+  $index = 0;
+  $guests_left = $ncomensales;
+  $politica_mesas = obtenerDatosMesas();
+  $max_comensales = $politica_mesas['comensales_por_mesa'];
+  $db_key = obtenerClavesBD();
+  while($guests_left > 0){
+    $comensales_a_asignar = $guests_left > $max_comensales ? $max_comensales : $guests_left;
+    $mesa_a_asignar = $lista_mesas[$index];
+
+    try{
+      $pdo = new PDO($db_key[0], $db_key[1], $db_key[2], $db_key[3]);
+      $sentence = "INSERT INTO mesa (id_pedido, nmesa, hora_reserva, comensales) ";
+      $sentence .= "VALUES(:npedido, :mesa_asignada, :fecha, :comensales_asignados)";
+      $stmt = $pdo->prepare($sentence);
+      $stmt->bindValue(":npedido", $npedido);
+      $stmt->bindValue(":mesa_asignada", $mesa_a_asignar);
+      $stmt->bindValue(":fecha", $fecha);
+      $stmt->bindValue(":comensales_asignados", $comensales_a_asignar);
+      $stmt->execute();
+    }
+    catch(PDOException $pdoe){apuntarError($pdoe, $errores);}
+    finally {
+      $pdo = null;
+      $stmt = null;
+    };
+
+    $index += 1;
+    $guests_left -= $max_comensales;
+  };
 };
 
 ?>

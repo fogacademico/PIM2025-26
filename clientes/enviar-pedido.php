@@ -373,6 +373,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST"){
     }
     else if ($tipo_pedido === "mesa"){
       /*
+      
 // INSERTAR TIPO DE PEDIDO: MESA
     
     try { // TO FIX. DEFINIR UNA POLITICA DE RESERVAS CLARA

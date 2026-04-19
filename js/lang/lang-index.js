@@ -6,6 +6,7 @@ const translations = {
         takeaway: "Pedir para recoger en local",
         book_table: "Reservar mesa",
         login_employees: "Acceso para trabajadores",
+        goback_button: "Volver atrás",
         footer: "2026 Customizza | Proyecto 2º Desarrollo de Aplicaciones Web"
     },
     en: {
@@ -15,6 +16,7 @@ const translations = {
         takeaway: "Order takeaway",
         book_table: "Book a table",
         login_employees: "Login (for employees)",
+        goback_button: "Go back",
         footer: "2026 Customizza | Web Applications Development Degree's 2nd year Project."
     }
 };

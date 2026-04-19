@@ -17,7 +17,7 @@ function comprobarJWT(){
 $usuario = comprobarJWT();
 regularCambiosUsuario($usuario);
 
-$tipos_pedido_validos = ["domicilio", "recoger"];
+$tipos_pedido_validos = ["domicilio", "recoger", "mesa"];
 
 date_default_timezone_set("Europe/Madrid");
 
@@ -46,6 +46,20 @@ if ($_SERVER['REQUEST_METHOD'] === "POST"){
     echo "<p><a href='../lobby.php'>Volver al menú principal.</a></p>";
     finHtml();
   }
+  else if ( $_POST['tipo_pedido'] === "mesa" && !$_POST['comensales']){
+    inicioHtml("Error al enviar pedido", []);
+    echo "<h2 data-i18n='error_msg6'>No se ha recibido ningún número de comensales o se ha recibido uno incorrecto.</h2>";
+    echo "<p><a href='../lobby.php' data-i18n='go_back'>Volver al menú principal.</a></p>";
+    echo "<script src='../js/lang/lang-finalpedido.js'></script>";
+    finHtml();
+  }
+  else if ($_POST['tipo_pedido'] === "mesa" && !$_POST['fecha']){
+    inicioHtml("Error al enviar pedido", []);
+    echo "<h2 data-i18n='error_msg7'>No se ha recibido ninguna hora para reservar mesa o se ha recibido una incorrecta.</h2>";
+    echo "<p><a href='../lobby.php' data-i18n='go_back'>Volver al menú principal.</a></p>";
+    echo "<script src='../js/lang/lang-finalpedido.js'></script>";
+    finHtml();
+  }
 
 
   // TODO: PROBABLEMENTE QUEDEN MÁS ERRORES  IMPORTANTES POR GESTIONAR. COMO DATOS INTRODUCIDOS INCORRECTOS
@@ -67,6 +81,33 @@ if ($_SERVER['REQUEST_METHOD'] === "POST"){
       if (isset($_POST['tlf'])){
         $tlf = filter_input(INPUT_POST, "tlf", FILTER_VALIDATE_INT) ? $_POST['tlf'] : null;
       };
+    };
+
+    if ($tipo_pedido === "mesa"){
+        $fecha_ahora = time() - 60; // Intento permitir así que se puedan hacer reservas para la hora actual, pero no para antes.
+
+        $fecha = DateTime::createFromFormat("Y-m-d H:i:s", $_POST['fecha']) ? $_POST['fecha'] : "";
+        $fecha = strtotime($fecha) > $fecha_ahora ? $fecha : false;
+
+        $comensales = isset($_POST['comensales']) && intval($_POST['comensales']) > 0 ? 
+        intval($_POST['comensales']) : false;
+
+          if (!$comensales){
+            inicioHtml("Error al enviar pedido", []);
+            echo "<h2 data-i18n='error_msg6'>No se ha recibido ningún número de comensales o se ha recibido uno incorrecto.</h2>";
+            echo "<p><a href='../lobby.php' data-i18n='go_back'>Volver al menú principal.</a></p>";
+            echo "<script src='../js/lang/lang-finalpedido.js'></script>";
+            finHtml();
+            exit(6);
+          }
+          else if (!$fecha){
+            inicioHtml("Error al enviar pedido", []);
+            echo "<h2 data-i18n='error_msg7'>No se ha recibido ninguna hora para reservar mesa o se ha recibido una incorrecta.</h2>";
+            echo "<p><a href='../lobby.php' data-i18n='go_back'>Volver al menú principal.</a></p>";
+            echo "<script src='../js/lang/lang-finalpedido.js'></script>";
+            finHtml();
+            exit(7);
+          };
     };
 
     // ENVÍO DEL PEDIDO
@@ -383,6 +424,10 @@ if ($_SERVER['REQUEST_METHOD'] === "POST"){
       };
     }
     else if ($tipo_pedido === "mesa"){
+      // INSERTAR TIPO DE PEDIDO: MESA
+      $mesas = ubicarEnMesas($fecha, $comensales);
+      $lista_errores = asignarMesas($ultimo_pedido, $fecha, $mesas, $comensales, $lista_errores);
+
       /*
 // INSERTAR TIPO DE PEDIDO: MESA
     

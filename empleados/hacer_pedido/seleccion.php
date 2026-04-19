@@ -24,7 +24,7 @@ $nombre_usuario = $usuario['nombre_usuario'];
 $datos_pedido = [];
 $catalogo_productos = [];
 $catalogo_ing = [];
-$tipos_pedido = ["recoger", "domicilio"];
+$tipos_pedido = ["recoger", "domicilio", "mesa"];
 
 // Datos de los ingredientes
 $masas = 18;
@@ -46,6 +46,14 @@ else if (isset($_POST['tipo_pedido']) && $_POST['tipo_pedido'] === "domicilio"){
 else if (isset($_POST['tipo_pedido']) && $_POST['tipo_pedido'] === "mesa"){
   $datos_pedido['tipo_pedido'] = $_POST['tipo_pedido'];
   $datos_pedido['nombre_cliente'] = filter_input(INPUT_POST, "nombre_cliente", FILTER_SANITIZE_SPECIAL_CHARS);
+
+  $fecha_ahora = time() - 60; // Intento permitir así que se puedan hacer reservas para la hora actual, pero no para antes.
+
+  $fecha = DateTime::createFromFormat("Y-m-d H:i:s", $_POST['fecha']) ? $_POST['fecha'] : "";
+  $datos_pedido['fecha'] = strtotime($fecha) > $fecha_ahora ? $fecha : false;
+
+  $datos_pedido['comensales'] = isset($_POST['comensales']) && intval($_POST['comensales']) > 0 ? 
+  intval($_POST['comensales']) : false;
 };
 
 // Obtenemos los datos de los productos

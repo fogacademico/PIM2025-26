@@ -21,41 +21,34 @@ $nombre_cuenta = $usuario['nombre_cuenta'];
 $rango = $usuario['rango'];
 $nombre_usuario = $usuario['nombre_usuario'];
 
-inicioHtml("Customizza Empleados. Ordenar una pizza", []);
+inicioHtml("Customizza Empleados. Ordenar una pizza", ["../../style/css2.css"]);
+echo "<h1>Bienvenido/a/e, $nombre_usuario</h1>";
+  echo "<h6>(Rango: $rango. Hora de inicio de sesión: $hora. Cuenta: $nombre_cuenta)</h6>";
 ?>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Customizza Emplados</title>
-  <link rel="stylesheet" href="../../style/css2.css" />
-
-</head>
 <body>
 
-  <header>
-    <h1>Customizza empleados</h1>
-    <h1>Bienvenido/a/e, <?= $nombre_usuario ?></h1>
-    <h6>(Rango: <?= $rango ?>. Hora de inicio de sesión: <?= $hora ?>. Cuenta: <?= $nombre_cuenta ?>)</h6>
+<header>
+    <h1>Customizza</h1>
+    <p data-i18n="slogan">Pizzas para todos los gustos</p>
+    <img id="boton-es" src="../../imgs/banderaesp.png" class="boton-idioma">
+    <img id="boton-en" src="../../imgs/banderauk.jpg" class="boton-idioma">
   </header>
 
   <main>
-    <h2>¿Qué deseas hacer?</h2>
-    <h1>ADVERTENCIA: EN ESTA VERSIÓN NO FUNCIONA BIEN EL HACER PEDIDOS A RECOGER
-      DESDE LA WEB DE LOS EMPLEADOS. HACER DESDE AQUÍ SÓLO PEDIDOS A DOMICILIO.
-    </h1>
+    <h2 data-i18n="question1">¿Qué deseas hacer?</h2>
 
     <div class="buttons">
-      <button onclick="window.location.href='pedido.php?tipo=domicilio'">Pedir a domicilio</button> <!-- Domicilio-->
-      <button onclick="window.location.href='pedido.php?tipo=recoger'">Pedir para entregar en local</button> <!--Recoger (Lleva a pedido luego)-->
-      <button onclick="window.location.href='./clientes/mesa.html'">Reservar mesa</button> <!--Elegir mesa-->
+      <button data-i18n="delivery" onclick="window.location.href='./pedido.php?tipo=domicilio'">Pedir a domicilio</button> <!-- Domicilio-->
+      <button data-i18n="takeaway" onclick="window.location.href='./pedido.php?tipo=recoger'">Pedir para recoger en local</button> <!--Recoger (Lleva a pedido luego)-->
+      <button data-i18n="book_table" onclick="window.location.href='./pedido.php?tipo=mesa'">Reservar mesa</button> <!--Elegir mesa-->
     </div>
+    <p><a data-i18n="goback_button" href="../lobby.php">Volver atrás</a></p>
   </main>
 
   <footer>
-    <p>Placeholderdelfooter</p>
+    <p data-i18n="footer"> 2026 Customizza | Proyecto 2º Desarrollo de Aplicaciones Web</p>
   </footer>
+  <script src="../../js/lang/lang-index.js"></script>
 
 </body>
 </html>

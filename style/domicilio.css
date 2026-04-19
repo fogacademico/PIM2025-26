@@ -108,6 +108,7 @@ main {
   width: 100%;
   max-width: 400px;
   margin: 0 auto;
+  color: #555555;
 }
 
 /* ===== TIPOGRAFÍA ===== */
@@ -148,6 +149,10 @@ input {
   margin: 10px 0;
   border: 1px solid #ccc;
   border-radius: 8px;
+}
+
+.input-radio {
+  width: auto;
 }
 
 /* ===== ACCESIBILIDAD ===== */
