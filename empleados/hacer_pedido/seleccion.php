@@ -93,6 +93,7 @@ finally {
 
 inicioHtml("Customizza. Selección", ["../../style/seleccion.css"]);
 ?>
+<header>
 <p>
   <span data-i18n="ordertype_title">Tipo de pedido: </span>
 <?php
@@ -105,19 +106,20 @@ else {
 };
 ?>
 </p>
-<img id="boton-es" src="../../imgs/banderaesp.png" class="boton-idioma">
-<img id="boton-en" src="../../imgs/banderauk.jpg" class="boton-idioma">
-<p><a data-i18n="goback_button" href="<?= 
+<div><img id="boton-es" src="../../imgs/banderaesp.png" class="boton-idioma">
+<img id="boton-en" src="../../imgs/banderauk.jpg" class="boton-idioma"></div>
+<p><a class="goback_button" data-i18n="goback_button" href="<?= 
 (isset($datos_pedido['tipo_pedido']) && $datos_pedido['tipo_pedido'] && in_array($datos_pedido['tipo_pedido'], $tipos_pedido)) ? 
 "pedido.php?tipo={$datos_pedido['tipo_pedido']}" : "../lobby.php"
 ?>">Volver atrás</a></p>
+</header>
 <main>
   <div class="zona-menus">
 <button data-i18n="products_menu_button" id="boton-prod">Ver menú de productos</button>
 <button data-i18n="pizzas_menu_button"id="boton-pizza">Ver menú de pizzas</button><br/>
 <div id="menu-prod" class="ocultar">
-  <fieldset id="lista-prod">
-    <legend data-i18n="products_title">Productos</legend>
+  <fieldset class="menus" id="lista-prod">
+    <h2 data-i18n="products_title">Productos</h2>
     <?php
     foreach ($catalogo_productos as $clave => $valor){
       if ($clave != 1){
@@ -132,8 +134,8 @@ else {
   </fieldset>
   </div>
 <form id="menu-pizza" class="ver-menu">
-  <fieldset>
-    <legend data-i18n="pizzas_title">Pizzas</legend>
+  <fieldset class="menus">
+    <h2 data-i18n="pizzas_title">Pizzas</h2>
     <h5 data-i18n="dough_title">Masa</h5>
     <p data-i18n="dough_desc">Elige tu masa</p>
     <input type='checkbox' id='tipo-masa-sin-gluten' name='tipo-masa'> 
@@ -191,7 +193,7 @@ else {
   </fieldset>
 </form>
 </div>
-<div class="gestion-seleccion">
+<div class="menus gestion-seleccion">
   <h3 data-i18n="order_title">PEDIDO:</h3><br/>
   <ul id="panel-seleccionados" class="panel-seleccionados"></ul>
   <p><span data-i18n="order_import_title">Total: </span><span id="precio-pedido">0</span> Euros.</p>
@@ -202,7 +204,8 @@ else {
       echo "<input type='hidden' id='$clave' name='$clave' value='$valor'>";
     };
     ?>
-    <input type="submit" data-i18n-value="send_order" id="operacion" name="operacion" value="Confirmar selección y enviar">
+    <input class="btn-terminar" type="submit" data-i18n-value="send_order" id="operacion" 
+    name="operacion" value="Confirmar selección y enviar">
   </form>
 </div>
 </main>

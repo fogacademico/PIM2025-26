@@ -21,10 +21,10 @@ $rango = $usuario['rango'];
 $nombre_usuario = $usuario['nombre_usuario'];
 
 
-inicioHtml("Lista de ingredientes", []);
+inicioHtml("Lista de ingredientes", ["../../style/historial.css"]);
 
-echo "<h1>Bienvenido/a/e, $nombre_usuario</h1>";
-echo "<h6>(Rango: $rango. Hora de inicio de sesión: $hora. Cuenta: $nombre_cuenta)</h6>";
+echo "<header><h1>Bienvenido/a/e, $nombre_usuario</h1>";
+echo "<h6>(Rango: $rango. Hora de inicio de sesión: $hora. Cuenta: $nombre_cuenta)</h6></header>";
 
 $db_key = obtenerClavesBD();
 
@@ -65,15 +65,18 @@ function verIngredientes ($key, $marker = false){
 };
 
 ?>
-<h4><a href="ingredientes.php?show=intolerance">Ver los ingredientes aptos para celiacos</a></h4>
-<h4><a href="ingredientes.php">Ver todos los ingredientes</a></h4>
-<h4><a href="../lobby.php">Atrás</a></h4>
+<div class="container">
+<main>
+<h4>-<a class="opcion-navegacion" href="ingredientes.php?show=intolerance">Ver los ingredientes aptos para celiacos</a></h4>
+<h4>-<a class="opcion-navegacion" href="ingredientes.php">Ver todos los ingredientes</a></h4>
+<h4>-<a class="opcion-navegacion" href="../lobby.php">Atrás</a></h4>
+</main>
 <?php
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['show']) && $_GET['show'] === "intolerance"){verIngredientes($db_key, 1);}
 else {verIngredientes($db_key);};
 
-
+echo "</div>";
 finHtml();
 
 ?>

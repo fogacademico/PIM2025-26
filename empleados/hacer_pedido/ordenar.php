@@ -21,15 +21,11 @@ $nombre_cuenta = $usuario['nombre_cuenta'];
 $rango = $usuario['rango'];
 $nombre_usuario = $usuario['nombre_usuario'];
 
-inicioHtml("Customizza Empleados. Ordenar una pizza", ["../../style/css2.css"]);
-echo "<h1>Bienvenido/a/e, $nombre_usuario</h1>";
+inicioHtml("Customizza Empleados. Ordenar una pizza", ["../../style/index.css"]);
+echo "<header><h1>Bienvenido/a/e, $nombre_usuario</h1>";
   echo "<h6>(Rango: $rango. Hora de inicio de sesión: $hora. Cuenta: $nombre_cuenta)</h6>";
 ?>
 <body>
-
-<header>
-    <h1>Customizza</h1>
-    <p data-i18n="slogan">Pizzas para todos los gustos</p>
     <img id="boton-es" src="../../imgs/banderaesp.png" class="boton-idioma">
     <img id="boton-en" src="../../imgs/banderauk.jpg" class="boton-idioma">
   </header>
@@ -42,9 +38,8 @@ echo "<h1>Bienvenido/a/e, $nombre_usuario</h1>";
       <button data-i18n="takeaway" onclick="window.location.href='./pedido.php?tipo=recoger'">Pedir para recoger en local</button> <!--Recoger (Lleva a pedido luego)-->
       <button data-i18n="book_table" onclick="window.location.href='./pedido.php?tipo=mesa'">Reservar mesa</button> <!--Elegir mesa-->
     </div>
-    <p><a data-i18n="goback_button" href="../lobby.php">Volver atrás</a></p>
+    <p><a class="goback_button goback_employees" data-i18n="goback_button" href="../lobby.php">Volver atrás</a></p>
   </main>
-
   <footer>
     <p data-i18n="footer"> 2026 Customizza | Proyecto 2º Desarrollo de Aplicaciones Web</p>
   </footer>

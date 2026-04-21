@@ -52,8 +52,8 @@ if ($_SERVER['REQUEST_METHOD'] === "POST"){
     if (isset($_POST['tlf'])){
       $tlf = filter_input(INPUT_POST, "tlf", FILTER_VALIDATE_INT) ? $_POST['tlf'] : null;};
 
-    inicioHtml("Customizza. Confirmar pedido", []);
-
+    inicioHtml("Customizza. Confirmar pedido", ["../style/finpedido.css"]);
+  echo "<div class='container'>";
   echo "<h4 data-i18n='order_title'>Pedido registrado:</h4>";
   echo "<h5 data-i18n='products_title'>Productos:</h5>";
   foreach($datos_del_json["productos"] as $prod){
@@ -90,7 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST"){
         };
       };
       ?>
-      <input type="submit" id="operacion" name="operacion"  data-i18n-value="send_order" value="Confirmar pedido">
+      <input class="btn-terminar" type="submit" id="operacion" name="operacion"  data-i18n-value="send_order" value="Confirmar pedido">
     </form>
       <form method="POST" action="seleccion.php">
       <input type="hidden" id="tipo_pedido" name="tipo_pedido" value="<?= $tipo_pedido ?>">
@@ -106,10 +106,11 @@ if ($_SERVER['REQUEST_METHOD'] === "POST"){
         };
       };
       ?>
-      <input type="submit" id="operacion" name="operacion" data-i18n-value="back_to_selection" value="Cambiar pedido">
+      <input class="btn-terminar" type="submit" id="operacion" name="operacion" data-i18n-value="back_to_selection" value="Cambiar pedido">
     </form>
     <script src="../js/lang/lang-confirmacion.js"></script>
     <?php
+    echo "</div>";
     finHtml();
     };
   }

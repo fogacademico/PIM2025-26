@@ -21,14 +21,15 @@ $rango = $usuario['rango'];
 $nombre_usuario = $usuario['nombre_usuario'];
 
 
-inicioHtml("Mesas reservadas", []);
+inicioHtml("Mesas reservadas", ["../../style/historial.css"]);
 
-echo "<h1>Bienvenido/a/e, $nombre_usuario</h1>";
-echo "<h6>(Rango: $rango. Hora de inicio de sesión: $hora. Cuenta: $nombre_cuenta)</h6>";
-echo "<h5>(Esta página NO se autorecarga)</h5>";
+echo "<header><h1>Bienvenido/a/e, $nombre_usuario</h1>";
+echo "<h6>(Rango: $rango. Hora de inicio de sesión: $hora. Cuenta: $nombre_cuenta)</h6></header>";
+echo "<div class='container'>";
+echo "<main><h5>(Esta página NO se autorecarga)</h5>";
 echo "<h2>MESAS OCUPADAS</h2>";
-echo "<h4><a href='mesas.php'>Refrescar</a></h4>";
-echo "<h4><a href='../lobby.php'>Atrás</a></h4>";
+echo "<h4>-<a class='opcion-navegacion' href='mesas.php'>Refrescar</a></h4>";
+echo "<h4>-<a class='opcion-navegacion' href='../lobby.php'>Atrás</a></h4></main>";
 
 $db_key = obtenerClavesBD();
 // TO FIX. DEFINIR UNA POLITICA DE RESERVAS CLARA
@@ -36,7 +37,7 @@ try {
     $pdo = new PDO($db_key[0], $db_key[1], $db_key[2], $db_key[3]);
     $sentence = "SELECT me.id_pedido, me.nmesa, me.hora_reserva, me.comensales FROM mesa as me ";
     $sentence .= "INNER JOIN pedido as pe on pe.id_pedido = me.id_pedido ";
-    $sentence .= "WHERE me.hora_reserva > :hora AND (pe.estado IS null OR pe.estado != 'cancelado')";
+    $sentence .= "WHERE me.hora_reserva > :hora AND (pe.estado IS null OR pe.estado != 'cancelado') ORDER BY me.hora_reserva DESC";
     $stmt = $pdo->prepare($sentence);
     $stmt -> bindValue(":hora", date("Y-m-d H:i:s", (time() - (60 * 60))));
     $stmt -> execute();
@@ -58,6 +59,7 @@ try {
   }
 
 ?>
+</div>
 <?php
 
 finHtml();

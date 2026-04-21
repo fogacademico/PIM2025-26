@@ -9,7 +9,7 @@ $hora_actual = date("H:i:s", time());
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && $_GET['tipo'] === "domicilio"){
-  inicioHtml("Customizza. Pedido", ["../style/domicilio.css"]);
+  inicioHtml("Customizza. Pedido", ["../style/pedido.css"]);
   ?>
   <header>
     <h1>Customizza</h1>
@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && $_GET['tipo'] === "domicilio"){
     <img id="boton-es" src="../imgs/banderaesp.png" class="boton-idioma">
     <img id="boton-en" src="../imgs/banderauk.jpg" class="boton-idioma">
   </header>
-
+  <p><a class="goback_button" data-i18n="goback_button" href="../index.php">Volver atrás</a></p>
   <div class="container">
     <h2 data-i18n="form_title_delivery">Información de la entrega</h2>
     <form id="formDatos" action="seleccion.php" method="post">
@@ -29,7 +29,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && $_GET['tipo'] === "domicilio"){
       <input data-i18n-value="submit_button" type="submit" value="Continuar">
     </form>
   </div>
-  <p><a data-i18n="goback_button" href="./ordenar.php">Volver atrás</a></p>
   <footer>
     <p data-i18n="footer">2026 Customizza | Proyecto 2º Desarrollo de Aplicaciones Web</p>
   </footer>
@@ -39,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && $_GET['tipo'] === "domicilio"){
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && $_GET['tipo'] === "recoger"){
-  inicioHtml("Customizza. Pedido", ["../style/domicilio.css"]);
+  inicioHtml("Customizza. Pedido", ["../style/pedido.css"]);
   ?>
   <header>
     <h1>Customizza</h1>
@@ -47,7 +46,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && $_GET['tipo'] === "recoger"){
     <img id="boton-es" src="../imgs/banderaesp.png" class="boton-idioma">
     <img id="boton-en" src="../imgs/banderauk.jpg" class="boton-idioma">
   </header>
-  <h2 data-i18n="form_title_takeaway">Hacer pedido</h2>
+  <p><a class="goback_button" data-i18n="goback_button" href="../index.php">Volver atrás</a></p>
+  <div class="container">
+    <h2 data-i18n="form_title_takeaway">Hacer pedido</h2>
     <form action="seleccion.php" method="POST">
       <input type="hidden" id="tipo_pedido" name="tipo_pedido" value="recoger">
       <!--<input type="hidden" id="form_idioma" name="form_idioma" value="es">-->
@@ -55,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && $_GET['tipo'] === "recoger"){
       <input data-i18n-placeholder="customer_name" type="text" id="nombre_cliente" name="nombre_cliente" placeholder="Pedido a nombre de..." required>
       <input data-i18n-value="submit_button" type="submit" value="Continuar">
     </form>
-    <p><a data-i18n="goback_button" href="./ordenar.php">Volver atrás</a></p>
+  </div>
     <footer>
     <p data-i18n="footer">2026 Customizza | Proyecto 2º Desarrollo de Aplicaciones Web</p>
   </footer>
@@ -65,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && $_GET['tipo'] === "recoger"){
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && $_GET['tipo'] === "mesa"){
-  inicioHtml("Customizza. Pedido", ["../style/domicilio.css"]);
+  inicioHtml("Customizza. Pedido", ["../style/pedido.css"]);
   ?>
   <header>
     <h1>Customizza</h1>
@@ -73,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && $_GET['tipo'] === "mesa"){
     <img id="boton-es" src="../imgs/banderaesp.png" class="boton-idioma">
     <img id="boton-en" src="../imgs/banderauk.jpg" class="boton-idioma">
   </header>
-
+  <p><a class="goback_button" data-i18n="goback_button" href="../index.php">Volver atrás</a></p>
   <div class="container">
     <h2 data-i18n="form_title_tables">Menú de reserva de mesas</h2>
     <form id="formDatos_mesa" action="gestion-mesas.php" method="POST">
@@ -91,7 +92,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && $_GET['tipo'] === "mesa"){
       <input type="submit" id="operacion" name="operacion" data-i18n-value="submit_button" value="Continuar">
     </form>
   </div>
-  <p><a data-i18n="goback_button" href="./index.php">Volver atrás</a></p>
   <footer>
     <p data-i18n="footer">2026 Customizza | Proyecto 2º Desarrollo de Aplicaciones Web</p>
   </footer>

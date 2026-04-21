@@ -21,44 +21,45 @@ $nombre_cuenta = $usuario['nombre_cuenta'];
 $rango = $usuario['rango'];
 $nombre_usuario = $usuario['nombre_usuario'];
 
-inicioHtml("Customizza Empleados. Cambiar estado de pedido", []);
-
 date_default_timezone_set("Europe/Madrid");
 $db_key = obtenerClavesBD();
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET'){
   if (isset($_GET['changestate']) &&  $_GET['changestate'] > -1){
-        inicioHtml("Customizza Empleados. Cambiar estado de pedido", []);
+        inicioHtml("Customizza Empleados. Cambiar estado de pedido", ["../../style/historial.css"]);
 
-        echo "<h1>Bienvenido/a/e, $nombre_usuario</h1>";
-        echo "<h6>(Rango: $rango. Hora de inicio de sesión: $hora. Cuenta: $nombre_cuenta)</h6>";
-        echo "<h2>Últimos pedidos</h2>";
+        echo "<header><h1>Bienvenido/a/e, $nombre_usuario</h1>";
+        echo "<h6>(Rango: $rango. Hora de inicio de sesión: $hora. Cuenta: $nombre_cuenta)</h6></header>";
+        echo "<div class='container'><main><h2>Últimos pedidos</h2>";
 
         ?>
         <form action="<?= $_SERVER['PHP_SELF'] ?>" method="POST">
           <input type="hidden" name="id-pedido" id="id-pedido" value="<?= $_GET['changestate'] ?>">
           <p>¿Qué desea hacer con este pedido?</p>
-          <h6>Sin estado: Pedido pagado o del que se espera pago inminente.</h6>
-          <h6>Cancelado: Pedido cancelado.</h6>
-          <h6>Impagado: Pedido no pagado. El cliente ha hecho un simpa o nos lo ha dejado a deber.</h6>
+          <h5>Sin estado: Pedido pagado o del que se espera pago inminente.</h6>
+          <h5>Cancelado: Pedido cancelado.</h6>
+          <h5>Impagado: Pedido no pagado. El cliente ha hecho un simpa o nos lo ha dejado a deber.</h6>
           <select id="estado-pedido" name="estado-pedido" size="3">
             <option value="sin-estado" selected>Sin estado</option>
             <option value="cancelado">Cancelar</option>
             <option value="impagado">Declarar como impagado</option>
-          </select>
-          <input type="submit" value="Cambiar Estado">
+          </select><br/>
+          <input class='btn-terminar' type="submit" value="Cambiar Estado">
         </form>
+        <h4>-<a class='opcion-navegacion' href="cambiar-estado.php">Atrás</a></h4>
+        </main>
+        </div>
         
         <?php
 
         echo "<h4><a href='cambiar-estado.php'>Atrás</a></h4>";
   }
   else {
-    inicioHtml("Customizza Empleados. Cambiar estado de pedido", []);
+    inicioHtml("Customizza Empleados. Cambiar estado de pedido", ["../../style/historial.css"]);
 
-    echo "<h1>Bienvenido/a/e, $nombre_usuario</h1>";
-    echo "<h6>(Rango: $rango. Hora de inicio de sesión: $hora. Cuenta: $nombre_cuenta)</h6>";
-    echo "<h2>Últimos pedidos</h2>";
+    echo "<header><h1>Bienvenido/a/e, $nombre_usuario</h1>";
+    echo "<h6>(Rango: $rango. Hora de inicio de sesión: $hora. Cuenta: $nombre_cuenta)</h6></header>";
+    echo "<div class='container'><main><h2>Últimos pedidos</h2>";
 
     function verPedidosModificables ($key, $marker = false,){
       try {
@@ -99,10 +100,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
     };
 
     ?>
-    <h4><a href="cambiar-estado.php?show=3days">Ver los pedidos de los últimos 3 días</a></h4>
-    <h4><a href="cambiar-estado.php">Ver los pedidos del mes</a></h4>
-    <h4><a href="cambiar-estado.php?show=all">Ver todos los pedidos</a></h4>
-    <h4><a href="../lobby.php">Atrás</a></h4>
+    <h4>-<a class='opcion-navegacion' href="cambiar-estado.php?show=3days">Ver los pedidos de los últimos 3 días</a></h4>
+    <h4>-<a class='opcion-navegacion' href="cambiar-estado.php">Ver los pedidos del mes</a></h4>
+    <h4>-<a class='opcion-navegacion' href="cambiar-estado.php?show=all">Ver todos los pedidos</a></h4>
+    <h4>-<a class='opcion-navegacion' href="../lobby.php">Atrás</a></h4>
+    </main>
     <?php
 
     if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['show']) && $_GET['show'] === "3days"){
@@ -114,7 +116,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
       $a_month_ago = date("Y-m-d H:i:s", (time() - (31 * 24 * 60 * 60)));
       verPedidosModificables($db_key, $a_month_ago);};
 
-
+    echo "</div>";
     finHtml();
   }
 }
@@ -125,8 +127,10 @@ else if ($_SERVER['REQUEST_METHOD'] === 'POST'){
   $datos['estado-pedido'] = in_array($_POST['estado-pedido'], $estados) ? $_POST['estado-pedido'] : false;
 
   if (in_array(false, $datos)){
-    echo "<h3>Error en la operación de cambiar estado de pedido. Pedido inexistente o estado erróneo.</h3>";
-    echo "<h4><a href='cambiar-estado.php'>Volver atrás</a></h4>";
+    inicioHtml("Customizza Empleados. Cambiar estado de pedido", ["../../style/historial.css"]);
+    echo "<div class='container'><h3>Error en la operación de cambiar estado de pedido. Pedido inexistente o estado erróneo.</h3>";
+    echo "<h4><a href='cambiar-estado.php'>Volver atrás</a></h4></div>";
+    finHtml();
   }
   else {
     if ($datos['estado-pedido'] === "sin-estado"){$datos['estado-pedido'] = "";};
@@ -143,9 +147,10 @@ else if ($_SERVER['REQUEST_METHOD'] === 'POST'){
       $pdo = null;
       $stmt = null;
     }
-
-    echo "<h3>Pedido {$datos['id-pedido']} modificado con éxito.</h3>";
-    echo "<h4><a href='cambiar-estado.php'>Volver atrás</a></h4>";
+    inicioHtml("Customizza Empleados. Cambiar estado de pedido", ["../../style/historial.css"]);
+    echo "<div class='container'><h3>Pedido {$datos['id-pedido']} modificado con éxito.</h3>";
+    echo "<h4><a class='btn-terminar' href='cambiar-estado.php'>Volver atrás</a></h4></div>";
+    finHtml();
   }
 
 }

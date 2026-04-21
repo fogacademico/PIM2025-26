@@ -27,7 +27,7 @@ $db_key = obtenerClavesBD();
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['npedido']) && $_GET['npedido'] > -1){
   $npedido = filter_input(INPUT_GET, 'npedido', FILTER_VALIDATE_INT);
-  inicioHtml("Customizza. Detalles pedido $npedido", []);
+  inicioHtml("Customizza. Detalles pedido $npedido", ["../../style/lobby.css"]);
   try {
       $pdo = new PDO($db_key[0], $db_key[1], $db_key[2], $db_key[3]);
       $sentence = "SELECT * FROM pedido WHERE id_pedido = :npedido";
@@ -35,9 +35,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['npedido']) && $_GET['np
       $stmt -> bindValue(":npedido", $npedido);
       $stmt -> execute();
       $fila = $stmt->fetch();
+      echo "<div class='container'>";
       echo "<p>Pedido {$fila['id_pedido']}. Fecha de encargo {$fila['fecha']}. Estado {$fila['estado']}<br>";
       echo "Encargado por {$fila['nombre_cuenta']}: {$fila['nombre_cliente']} </p>";
-      echo "<h4><a href='historial.php'>Volver atrás</a></h4>";
+      echo "<h4>-&gt;<a class='opcion-navegacion' href='historial.php'>Volver atrás</a></h4>";
       echo "<h2>PRECIO TOTAL: {$fila['precio_total']} Euros</h2>";
     }
     catch(PDOException $pdoe) {mostrarError($pdoe);} 
@@ -169,6 +170,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['npedido']) && $_GET['np
       }
 
     }
+    echo "</div>";
 }
 else {
   echo "<h2>ERROR: SE HA INTENTADO CONSULTAR UN PEDIDO INEXISTENTE</h2>";

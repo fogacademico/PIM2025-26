@@ -21,23 +21,27 @@ $rango = $usuario['rango'];
 $nombre_usuario = $usuario['nombre_usuario'];
 
 
-inicioHtml("Customizza Lobby", []);
+inicioHtml("Customizza Lobby", ["../../style/lobby.css"]);
 
+echo "<header>";
 echo "<h1>Bienvenido/a/e, $nombre_usuario</h1>";
-echo "<h6>(Rango: $rango. Hora de inicio de sesión: $hora. Cuenta: $nombre_cuenta)</h6>";
+echo "<h5>(Rango: $rango. Hora de inicio de sesión: $hora. Cuenta: $nombre_cuenta)</h5>";
+echo "</header>";
 
 ?>
-<h4><a href="./gestion_pizzas/historial.php">Ver pedidos</a></h4>
-<h4><a href="./hacer_pedido/ordenar.php">Ordenar pedido</a></h4>
-<h4><a href="./gestion_pizzas/cambiar-estado.php">Cambiar estado de un pedido (Normal, cancelado o impagado)</a></h4>
-<h4><a href="./gestion_pizzas/ingredientes.php">Ver ingredientes</a></h4>
-<h4><a href="./gestion_pizzas/mesas.php">Ver mesas ocupadas</a></h4>
+<div class="container">
+<h4>- <a class="opcion-navegacion" href="./gestion_pizzas/historial.php">Ver pedidos</a></h4>
+<h4>- <a class="opcion-navegacion" href="./hacer_pedido/ordenar.php">Ordenar pedido</a></h4>
+<h4>- <a class="opcion-navegacion" href="./gestion_pizzas/cambiar-estado.php">Cambiar estado de un pedido (Normal, cancelado o impagado)</a></h4>
+<h4>- <a class="opcion-navegacion" href="./gestion_pizzas/ingredientes.php">Ver ingredientes</a></h4>
+<h4>- <a class="opcion-navegacion" href="./gestion_pizzas/mesas.php">Ver mesas ocupadas</a></h4>
 <?php
 if (in_array($rango, ["admin", "superadmin"])){
-  echo "<h4><a href='./adminzone/adminzone.php'>Zona sólo para administradores</a></h4>";
+  echo "<h4>- <a class='opcion-navegacion' href='./adminzone/adminzone.php'>Zona sólo para administradores</a></h4>";
 }
 ?>
-<h4><a href="login.php?operacion=logout">Cerrar sesión</a></h4>
+<h4>- <a class="opcion-navegacion" href="login.php?operacion=logout">Cerrar sesión</a></h4>
+</div>
 <?php
 
 

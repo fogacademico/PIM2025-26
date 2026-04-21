@@ -58,13 +58,15 @@ if ($_SERVER['REQUEST_METHOD'] === "POST"){
     $id_prod = 1;
 
     if (!ubicarEnMesas($fecha, $comensales)){
-     inicioHtml("Customizza. Mesas no disponibles", ["../style/css2.css"]);
+     inicioHtml("Customizza. Mesas no disponibles", ["../style/index.css"]);
      ?>
      <img id="boton-es" src="../imgs/banderaesp.png" class="boton-idioma">
      <img id="boton-en" src="../imgs/banderauk.jpg" class="boton-idioma">
+     <div class="container">
      <p><?= $fecha ?></p>
      <p>No hay mesas suficientes a esa hora para tu grupo. Por favor, elija otra hora.</p>
-     <p><a href='pedido.php?tipo=mesa'>Volver al menú de selección de mesa.</a></p>
+     </div>
+     <p><a class="goback_button" href='pedido.php?tipo=mesa'>Volver al menú de selección de mesa.</a></p>
      <?php
      finHtml(); 
     }

@@ -1,0 +1,224 @@
+body {
+  font-family: Barlow;
+  background: url('../imgs/Logo-pizza.jpg') no-repeat center center fixed;
+  font-size: 20px;
+  background-size: cover;
+  margin: 0;
+  padding: 0;
+  color: white;
+
+  /* Footer siempre abajo */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+h1, h2 {
+  font-family: Merienda;
+}
+
+.main-title {
+  font-size: 40px;
+}
+
+.question1 {
+  font-size: 27px;
+}
+
+/* HEADER */
+header {
+  background: rgba(192, 57, 43, 0.85);
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+
+/* BOTONES PARA IDIOMAS */
+.boton-idioma {
+  width: 50px;
+  height: 50px;
+  border-radius: 50px;
+}
+
+/* MAIN */
+main {
+  flex: 1;
+  padding: 40px 20px;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.4);
+
+  /* Blur con compatibilidad */
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+
+  /* Animación de entrada */
+  animation: fadeIn 0.8s ease-in;
+}
+
+/* ===== CONTAINER (del segundo CSS) ===== */
+.container {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 60vw;
+  margin: 0 auto;
+  color: #555555;
+  margin-bottom: 30px;
+}
+
+.goback_button {
+  width: 150px;
+  text-align: center;
+  margin-left: 100px;
+  background-color: #ffffff;
+  border-radius: 12px ;
+  padding: 15px;
+  color: #000000;
+  text-decoration: none;
+}
+
+.goback_button:hover {
+  background-color: #c0392b;
+  color: #fff;
+}
+
+.goback_employees {
+  margin-left: 0px;
+}
+
+/* BOTONES PRINCIPALES */
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+}
+
+button {
+  background: #e74c3c;
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  font-size: 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+
+button:hover {
+  background: #c0392b;
+  transform: translateY(-2px);
+}
+
+/* ACCESIBILIDAD */
+button:focus,
+input:focus {
+  outline: 3px solid #e74c3c;
+  outline-offset: 2px;
+}
+
+/* LOGIN */
+.login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.login input {
+  font-family: Barlow;
+  font-size: 25px;
+  width: 80%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.error-mostrado {
+  margin: 0px;
+  padding: 25px;
+  background-color: #e74c3c;
+}
+
+/* FOOTER */
+footer {
+  background: rgba(51, 51, 51, 0.85);
+  color: white;
+  text-align: center;
+  padding: 15px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+/* ANIMACIONES */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 1050px){
+  body {
+    font-size: 40px;
+  }
+
+  button {
+    width: 100%;
+    font-size: 40px;
+  }
+
+  .main-title {
+    font-size: 90px;
+  }
+
+  .question1 {
+    font-size: 75px;
+  }
+}
+
+@media (max-width: 480px) {
+
+  .goback_button {
+    margin: 0px;
+    padding: 10px;
+    font-size: 20px;
+  }
+
+  body {
+    font-size: 20px;
+  }
+
+  .main-title {
+    font-size: 50px;
+  }
+
+  .question1 {
+    font-size: 32px;
+  }
+
+
+  button {
+    width: 100%;
+    font-size: 20px;
+  }
+
+  .buttons {
+    gap: 10px;
+  }
+
+  footer {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+}

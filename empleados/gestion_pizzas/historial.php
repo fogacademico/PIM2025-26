@@ -21,11 +21,11 @@ $rango = $usuario['rango'];
 $nombre_usuario = $usuario['nombre_usuario'];
 
 
-inicioHtmlAutoReload("Historial de pedidos", 60, []);
+inicioHtmlAutoReload("Historial de pedidos", 60, ["../../style/historial.css"]);
 
-echo "<h1>Bienvenido/a/e, $nombre_usuario</h1>";
-echo "<h6>(Rango: $rango. Hora de inicio de sesión: $hora. Cuenta: $nombre_cuenta)</h6>";
-echo "<h5>(Esta página se autorecarga cada minuto)</h5>";
+echo "<header><h1>Bienvenido/a/e, $nombre_usuario</h1>";
+echo "<h5>(Rango: $rango. Hora de inicio de sesión: $hora. Cuenta: $nombre_cuenta)</h5></header>";
+echo "<div class='container'><main><h5>(Esta página se autorecarga cada minuto)</h5>";
 echo "<p>Pulsa en el número identificador del pedido para ver los detalles de este.</p>";
 echo "<h2>Últimos pedidos</h2>";
 
@@ -70,10 +70,11 @@ function verPedidos ($key, $marker = false,){
 };
 
 ?>
-<h4><a href="historial.php?show=3days">Ver los pedidos de los últimos 3 días</a></h4>
-<h4><a href="historial.php">Ver los pedidos del mes</a></h4>
-<h4><a href="historial.php?show=all">Ver todos los pedidos</a></h4>
-<h4><a href="../lobby.php">Atrás</a></h4>
+<h4>-<a class="opcion-navegacion" href="historial.php?show=3days">Ver los pedidos de los últimos 3 días</a></h4>
+<h4>-<a class="opcion-navegacion" href="historial.php">Ver los pedidos del mes</a></h4>
+<h4>-<a class="opcion-navegacion" href="historial.php?show=all">Ver todos los pedidos</a></h4>
+<h4>-<a class="opcion-navegacion" href="../lobby.php">Atrás</a></h4>
+</main>
 <?php
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['show']) && $_GET['show'] === "3days"){
@@ -85,7 +86,7 @@ else {
   $a_month_ago = date("Y-m-d H:i:s", (time() - (31 * 24 * 60 * 60)));
   verPedidos($db_key, $a_month_ago);};
 
-
+echo "</div>";
 finHtml();
 
 ?>

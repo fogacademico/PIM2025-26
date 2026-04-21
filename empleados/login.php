@@ -28,26 +28,25 @@ if ($operation === "logout"){
 };
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET'){
-  inicioHtml("Customizza. Login para empleados", ["../style/login.css"]);
+  inicioHtml("Customizza. Login para empleados", ["../style/index.css"]);
 
 foreach ($errors as $error){
-  echo "<h4>$error</h4>";
+  echo "<h4 class='error-mostrado'>$error</h4>";
 };
 
 if (isset($_SESSION['errores'])){
   $_SESSION['errores'] = [];
 };
 ?>
-
+<p><a class="goback_button" href="../index.php">Volver a la pantalla principal</a></p>
+<div class="container">
 <h2>Acceso de empleados a Customizza</h2>
-<form action="./autenticacion/aut.php" method="POST">
-  <fieldset class="login">
-    <input type="text" name="username" id="username" placeholder="Usuario">
-    <input type="password" name="pwd" id="pwd" placeholder="Contraseña">
-    <input type="submit" name="operation" id="operation" value="Entrar">
-  </fieldset>
+<form class="login" action="./autenticacion/aut.php" method="POST">
+  <input type="text" name="username" id="username" placeholder="Usuario">
+  <input type="password" name="pwd" id="pwd" placeholder="Contraseña">
+  <input type="submit" name="operation" id="operation" value="Entrar">
 </form>
-<p><a href="../index.php">Volver a la pantalla principal</a></p>
+</div>
 
 <?php 
 finHtml();

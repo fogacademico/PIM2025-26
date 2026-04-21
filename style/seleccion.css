@@ -1,12 +1,36 @@
+/* ===== BASE ===== */
+body {
+  font-family: Barlow;
+  background: url('../imgs/Logo-pizza.jpg') no-repeat center center fixed;
+  background-size: cover;
+  font-size: 20px;
+  margin: 0;
+  padding: 0;
+  color: white;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+h1, h2, h3, h4, h5, h6, .muestra-tipo-pedido {
+  font-family: Merienda;
+}
+
+header {
+  background-color: rgba(192, 57, 43, 0.85);
+  margin-bottom: 10px;
+  display: flex;
+  padding-top: 10px;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+
 main {
   width: 95vw;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-}
-
-.menus {
-  width: 45vw;
 }
 
 .ocultar {
@@ -20,10 +44,65 @@ main {
   border-radius: 50px;
 }
 
-.gestion-seleccion {
+.menus {
   width: 45vw;
-  border: 2px solid black;
   border-radius: 5px;
+  background-color: #fff;
+  color: #000;
+}
+
+.gestion-seleccion {
+  padding: 20px;
+}
+
+button {
+  background: rgba(51, 51, 51, 0.85);;
+  color: white;
+  border: none;
+  padding: 5px;
+  font-size: 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.btn-terminar {
+  background: rgba(51, 51, 51, 0.85);;
+  color: white;
+  border: none;
+  padding: 10px;
+  font-weight: 500;
+  font-size: 22px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+select, option {
+  padding: 5px;
+}
+
+button:hover {
+  background: #c0392b;
+  transform: translateY(-2px);
+}
+
+input, select, option {
+  font-size: 20px;
+  font-family: Barlow;
+}
+
+.goback_button {
+  width: 150px;
+  background-color: #ffffff;
+  border-radius: 12px ;
+  padding: 15px;
+  color: #000000;
+  text-decoration: none;
+}
+
+.goback_button:hover {
+  background-color: #c0392b;
+  color: #fff;
 }
 
 .btn-borrar-detalle {
@@ -33,5 +112,31 @@ main {
   padding: 3px;
   font-family: Arial;
   border-radius: 5px;
+}
+
+@media (max-width: 450px){
+
+  main {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 30px;
+  }
+  .zona-menus, .zona-menus > *, .menus {
+    width: 350px;
+  }
+
+  .menus {
+    padding: 4px;
+  }
+
+  .gestion-seleccion {
+    padding: 2px;
+    width: 350px;
+  }
+
+  .gestion-seleccion > * {
+    width: 95%;
+  }
+
 }
 
