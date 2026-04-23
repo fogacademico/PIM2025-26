@@ -53,12 +53,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['npedido']) && $_GET['np
   if ($tipo_pedido === "A domicilio"){
     try {
       $pdo = new PDO($db_key[0], $db_key[1], $db_key[2], $db_key[3]);
-      $sentence = "SELECT direccion FROM domicilio WHERE id_pedido = :npedido";
+      $sentence = "SELECT direccion, tlf FROM domicilio WHERE id_pedido = :npedido";
       $stmt = $pdo->prepare($sentence);
       $stmt -> bindValue(":npedido", $npedido);
       $stmt -> execute();
       $filas = $stmt->fetchAll();
       echo "<p>Para la dirección: {$filas[0]['direccion']}</p>";
+      echo "<p>Teléfono adjunto: {$filas[0]['tlf']}</p>";
     }
     catch(PDOException $pdoe) {mostrarError($pdoe);} 
     finally {
