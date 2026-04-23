@@ -24,7 +24,7 @@ if (!in_array($rango, ["admin", "superadmin"])){
   header("Location: lobby.php");
 };
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['operation']) && $_POST['operation'] === "EliminarUsuario"){
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['operation']) && $_POST['operation'] === "Eliminar Usuario"){
 
   $datos = [];
   $datos['nombre_cuenta'] = filter_input(INPUT_POST, "nombre_cuenta", FILTER_SANITIZE_SPECIAL_CHARS);
@@ -33,20 +33,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['operation']) && $_POS
   // But I have other priorities now.
   if (esSuperAdmin($datos['nombre_cuenta'])){header("Location: adminzone.php");};
 
-  inicioHtml("Customizza Admins. Eliminar cuenta", []);
+  inicioHtml("Customizza Admins. Eliminar cuenta", ["../../style/lobby.css"]);
+  echo "<div class='container'>";
   echo "<h1>¿Está usted seguro de que quiere eliminar la cuenta ' {$datos['nombre_cuenta']} '? Esta operación no se puede deshacer</h1>";
   ?>
     <form action="<?= $_SERVER['PHP_SELF'] ?>" method="POST">
-    <fieldset>
       <input type="hidden" id="nombre_cuenta" name="nombre_cuenta" value="<?= $datos['nombre_cuenta'] ?>">
-      <input type="submit" name="operation" id="operation" value="ConfirmarEliminacion">
-    </fieldset>
+      <input type="submit" name="operation" id="operation" value="Confirmar Eliminacion">
   </form>
-  <h3><a href='eliminate-acc.php'>Volver atrás</a></h3>
+  <h3>-<a class="opcion-navegacion" href='eliminate-acc.php'>Volver atrás</a></h3>
+</div>
   <?php
   finHtml();
 }
-else if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['operation']) && $_POST['operation'] === "ConfirmarEliminacion") {
+else if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['operation']) && $_POST['operation'] === "Confirmar Eliminacion") {
   $datos = [];
   $datos['nombre_cuenta'] = filter_input(INPUT_POST, "nombre_cuenta", FILTER_SANITIZE_SPECIAL_CHARS);
 
@@ -65,16 +65,18 @@ else if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['operation']) && 
     $stmt = null;
   }
 
-  inicioHtml("Customizza Admins. Eliminar cuenta", []);
+  inicioHtml("Customizza Admins. Eliminar cuenta", ["../../style/lobby.css"]);
+  echo "<div class='container'>";
   echo "<h1>La cuenta ' {$datos['nombre_cuenta']} ' ha sido eliminada con éxito.</h1>";
-  echo "<h3><a href='adminzone.php'>Volver al menú para administradores</a></h3>";
+  echo "<h3>-<a class='opcion-navegacion' href='adminzone.php'>Volver al menú para administradores</a></h3></div>";
   finHtml();
 }
 else {
-  inicioHtml("Customizza Admins. Eliminar cuenta", []);
-  echo "<h1>Bienvenido/a/e a las opciones exclusivas para admins, $nombre_usuario</h1>";
-  echo "<h6>(Rango: $rango. Hora de inicio de sesión: $hora)</h6>";
+  inicioHtml("Customizza Admins. Eliminar cuenta", ["../../style/lobby.css"]);
+  echo "<header><h1>Bienvenido/a/e a las opciones exclusivas para admins, $nombre_usuario</h1>";
+  echo "<h6>(Rango: $rango. Hora de inicio de sesión: $hora)</h6></header>";
   ?>
+  <div class='container'>
   <h2>Menú de eliminación de cuentas</h2>
   <p> Seleccione una cuenta que quiera eliminar </p>
 
@@ -92,7 +94,7 @@ else {
           $stmt -> execute();
           $filas = $stmt->fetchAll();
           foreach ($filas as $row){
-            echo "<option value='{$row['nombre_cuenta']}'>{$row['nombre_cuenta']}( {$row['nombre_usuario']} )</option>";
+            echo "<option value='{$row['nombre_cuenta']}'>{$row['nombre_cuenta']} ( {$row['nombre_usuario']} )</option>";
           };
         }
         catch(PDOException $pdoe) {mostrarError($pdoe);} 
@@ -102,10 +104,11 @@ else {
         }
       ?>
       </select>
-      <input type="submit" name="operation" id="operation" value="EliminarUsuario">
+      <input type="submit" name="operation" id="operation" value="Eliminar Usuario">
     </fieldset>
   </form>
-  <h4><a href="adminzone.php">Volver al menú para administradores</a></h4>
+  <h4>-<a class='opcion-navegacion' href="adminzone.php">Volver al menú para administradores</a></h4>
+  </div>
   <?php
   finHtml();
 }

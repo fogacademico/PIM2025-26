@@ -24,12 +24,12 @@ if (!in_array($rango, ["admin", "superadmin"])){
   header("Location: lobby.php");
 };
 
-if (($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['operation']) && $_POST['operation'] === "ModificarUsuario") ||
+if (($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['operation']) && $_POST['operation'] === "Modificar Usuario") ||
     ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['operation']) && $_GET['operation'] === "micuenta")){
 
   $datos = [];
 
-  if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['operation']) && $_POST['operation'] === "ModificarUsuario"){
+  if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['operation']) && $_POST['operation'] === "Modificar Usuario"){
     $datos['nombre_cuenta'] = filter_input(INPUT_POST, "nombre_cuenta", FILTER_SANITIZE_SPECIAL_CHARS);
 
     $db_key = obtenerClavesBD();
@@ -60,10 +60,12 @@ if (($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['operation']) && $_PO
     $datos['rango'] = $rango;
   }
 
-  echo "<h3>Nombre actual de la cuenta a modificar: {$datos['nombre_cuenta']}</h3>";
+  inicioHtml("Customiza Admins", ["../../style/lobby.css"]);
+  echo "<header><h3>Nombre actual de la cuenta a modificar: {$datos['nombre_cuenta']}</h3>";
   echo "<h3>Nombre actual de la persona responsable de la cuenta a modificar: {$datos['nombre_usuario']}</h3>";
   $lista_rangos = ['employee' => 'Empleado', 'admin' => 'Administrador', 'superadmin' => 'Super Adminsitrador'];
-  echo "<h3>Rango actual de la cuenta a modificar: {$lista_rangos[$datos['rango']]}</h3>";
+  echo "<h3>Rango actual de la cuenta a modificar: {$lista_rangos[$datos['rango']]}</h3></header>";
+  echo "<div class='container'>";
 
   ?>
   <h2>Menú de modificación de cuenta</h2>
@@ -83,15 +85,16 @@ if (($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['operation']) && $_PO
         <option value="employee">Empleado</option>
         <option value="admin">Administrador</option>
       </select>
-      <input type="submit" name="operation" id="operation" value="AplicarModificaciones">
+      <input type="submit" name="operation" id="operation" value="Aplicar Modificaciones">
     </fieldset>
   </form>
-  <h4><a href="../lobby.php">Volver al menú principal</a></h4>
+  <h4>-<a class='opcion-navegacion' href="../lobby.php">Volver al menú principal</a></h4>
+  </div>
   <?php
 
   finHtml();
 }
-else if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['operation']) && $_POST['operation'] === "AplicarModificaciones") {
+else if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['operation']) && $_POST['operation'] === "Aplicar Modificaciones") {
   $datos = [];
   $datos['nombre_cuenta'] = filter_input(INPUT_POST, "nombre_cuenta", FILTER_SANITIZE_SPECIAL_CHARS);
   $datos['nombre_usuario'] = filter_input(INPUT_POST, "nombre_usuario", FILTER_SANITIZE_SPECIAL_CHARS);
@@ -100,23 +103,26 @@ else if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['operation']) && 
   $datos['rango'] = $_POST['rango'];
 
   if (!in_array($datos['rango'], ['admin', 'employee', ''])){
-    inicioHtml("Customizza Admins. Modificar usuario", []);
+    inicioHtml("Customizza Admins. Modificar usuario", ["../../style/lobby.css"]);
+    echo "<div class='container'>";
     echo "<h2>Alguien ha intentado modificar un usuario con un tipo de cuenta inexistente o prohibido. 
     La operación de modificación de usuario se ha cancelado.</h2>";
-    echo "<h4><a href='adminzone.php'>Volver al menú para administradores</a></h4>";
+    echo "<h4>-<a class='opcion-navegacion' href='adminzone.php'>Volver al menú para administradores</a></h4></div>";
     finHtml();
   }
   else if ($datos['nombre_cuenta'] === "" && $datos['nombre_usuario'] === "" && $datos['contrasenna'] === ""
      && $datos['rango'] === ""){
-      inicioHtml("Customizza Admins. Modificar usuario", []);
+      inicioHtml("Customizza Admins. Modificar usuario", ["../../style/lobby.css"]);
+      echo "<div class='container'>";
       echo "<h2>No se ha producido ningún cambio en el perfil " . $datos['cuenta_antigua'] . ".</h2>";
-      echo "<h4><a href='adminzone.php'>Volver al menú para administradores</a></h4>";
+      echo "<h4>-<a class='opcion-navegacion' href='adminzone.php'>Volver al menú para administradores</a></h4></div>";
       finHtml();
      }
   else if ($datos['nombre_cuenta'] != $datos['cuenta_antigua'] && esUsuario($datos['nombre_cuenta']) ){
-      inicioHtml("Customizza Admins. Modificar usuario", []);
+      inicioHtml("Customizza Admins. Modificar usuario", ["../../style/lobby.css"]);
+      echo "<div class='container'>";
       echo "<h2>Se ha intentado usar un nombre de cuenta ya empleado por otro usuario.</h2>";
-      echo "<h4><a href='adminzone.php'>Volver al menú para administradores</a></h4>";
+      echo "<h4>-<a class='opcion-navegacion' href='adminzone.php'>Volver al menú para administradores</a></h4></div>";
       finHtml();
      }
   else {
@@ -151,21 +157,22 @@ else if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['operation']) && 
       $pdo = null;
       $stmt = null;
     }
-    inicioHtml("Customizza Admins. Modificar usuario", []);
+    inicioHtml("Customizza Admins. Modificar usuario", ["../../style/lobby.css"]);
+    echo "<div class='container'>";
     echo "<h1>Usuario modificado con éxito</h1>";
-    echo "<h4><a href='adminzone.php'>Volver al menú para administradores</a></h4>";
+    echo "<h4>-<a class='opcion-navegacion' href='adminzone.php'>Volver al menú para administradores</a></h4></div>";
     finHtml();
   }
 }
 else {
-  inicioHtml("Customizza Admins. Modificar usuario", []);
-  echo "<h1>Bienvenido/a/e a las opciones exclusivas para admins, $nombre_usuario</h1>";
-  echo "<h6>(Rango: $rango. Hora de inicio de sesión: $hora)</h6>";
+  inicioHtml("Customizza Admins. Modificar usuario", ["../../style/lobby.css"]);
+  echo "<header><h1>Bienvenido/a/e a las opciones exclusivas para admins, $nombre_usuario</h1>";
+  echo "<h6>(Rango: $rango. Hora de inicio de sesión: $hora)</h6></header>";
   ?>
+  <div class="container">
   <h2>Menú de modificación de cuentas</h2>
   <p> Seleccione una cuenta que quiera modificar</p>
   <form action="<?= $_SERVER['PHP_SELF'] ?>" method="POST">
-    <fieldset> 
       <select name="nombre_cuenta" id="nombre_cuenta">
         <?php
         $db_key = obtenerClavesBD();
@@ -188,10 +195,10 @@ else {
         }
       ?>
       </select>
-      <input type="submit" name="operation" id="operation" value="ModificarUsuario">
-    </fieldset>
+      <input type="submit" name="operation" id="operation" value="Modificar Usuario">
   </form>
-  <h4><a href="adminzone.php">Volver al menú para administradores</a></h4>
+  <h4>-<a class='opcion-navegacion' href="adminzone.php">Volver al menú para administradores</a></h4>
+  </div>
   <?php
   finHtml();
 }

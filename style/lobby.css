@@ -129,7 +129,7 @@ input:focus {
   align-items: center;
 }
 
-.login input {
+input {
   font-family: Barlow;
   font-size: 25px;
   width: 80%;
@@ -154,6 +154,17 @@ footer {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
+}
+
+select, option {
+  font-family: Barlow;
+  font-size: 25px;
+  padding: 10px;
+  width: 80%;
+}
+
+select {
+  margin-bottom: 10px;
 }
 
 /* ANIMACIONES */

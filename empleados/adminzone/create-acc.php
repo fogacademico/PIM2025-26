@@ -24,20 +24,27 @@ if (!in_array($rango, ["admin", "superadmin"])){
   header("Location: lobby.php");
 };
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['operation']) && $_POST['operation'] === "CrearUsuario"){
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['operation']) && $_POST['operation'] === "Crear Usuario"){
 
   $datos = [];
   $datos['nombre_cuenta'] = filter_input(INPUT_POST, "nombre_cuenta", FILTER_SANITIZE_SPECIAL_CHARS);
   $datos['nombre_usuario'] = filter_input(INPUT_POST, "nombre_usuario", FILTER_SANITIZE_SPECIAL_CHARS);
   $datos['contrasenna'] = $_POST['contrasenna'];
   if (!in_array($_POST['rango'], ['admin', 'employee'])){
-    inicioHtml("Customizza Admins. Crear cuenta", []);
+    inicioHtml("Customizza Admins. Crear cuenta", ["../../style/lobby.css"]);
+    echo "<div class='container'>";
     echo "<h2>Alguien ha intentado crear un tipo de cuenta inexistente o prohibido. La operación de creación 
     de usuario se ha cancelado.</h2>";
   }
   else if (!$_POST['nombre_cuenta'] || esUsuario($_POST['nombre_cuenta'])){
-    inicioHtml("Customizza Admins. Crear cuenta", []);
+    inicioHtml("Customizza Admins. Crear cuenta", ["../../style/lobby.css"]);
+    echo "<div class='container'>";
     echo "<h2>Nombre de cuenta inválido. Puede que ya exista una cuenta con ese nombre.</h2>";
+  }
+  else if (!$_POST['contrasenna'] || $_POST['contrasenna'] === ""){
+    inicioHtml("Customizza Admins. Crear cuenta", ["../../style/lobby.css"]);
+    echo "<div class='container'>";
+    echo "<h2>Se intentó crear una cuenta sin contraseña.</h2>";
   }
   else {
     $datos['rango'] = $_POST['rango'];
@@ -58,18 +65,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['operation']) && $_POS
       $pdo = null;
       $stmt = null;
     }
-    inicioHtml("Customizza Admins. Crear cuenta", []);
+    inicioHtml("Customizza Admins. Crear cuenta", ["../../style/lobby.css"]);
+    echo "<div class='container'>";
     echo "<h1>Usuario " . $datos['nombre_cuenta'] . " añadido con éxito</h1>";
   }
-  echo "<h4><a href='create-acc.php'>Volver al menú de Crear Cuenta</a></h4>";
+  echo "<h4>-<a class='opcion-navegacion' href='create-acc.php'>Volver al menú de Crear Cuenta</a></h4></div>";
   finHtml();
 }
 
 else {
-  inicioHtml("Customizza Admins. Crear cuenta", []);
-  echo "<h1>Bienvenido/a/e a las opciones exclusivas para admins, $nombre_usuario</h1>";
-  echo "<h6>(Rango: $rango. Hora de inicio de sesión: $hora)</h6>";
+  inicioHtml("Customizza Admins. Crear cuenta", ["../../style/lobby.css"]);
+  echo "<header><h1>Bienvenido/a/e a las opciones exclusivas para admins, $nombre_usuario</h1>";
+  echo "<h6>(Rango: $rango. Hora de inicio de sesión: $hora)</h6></header>";
   ?>
+  <div class='container'>
   <h2>Menú de creación de cuenta</h2>
   <p> Recuerda que no pueden usarse los caracteres &lt; , &gt; , &quot; , &apos; , &amp; ni el espacio en blanco.</p>
 
@@ -82,10 +91,11 @@ else {
         <option value="employee">Empleado</option>
         <option value="admin">Administrador</option>
       </select>
-      <input type="submit" name="operation" id="operation" value="CrearUsuario">
+      <input type="submit" name="operation" id="operation" value="Crear Usuario">
     </fieldset>
   </form>
-  <h4><a href="adminzone.php">Volver al menú para administradores</a></h4>
+  <h4>-<a class='opcion-navegacion' href="adminzone.php">Volver al menú para administradores</a></h4>
+  </div>
   <?php
   finHtml();
 }
