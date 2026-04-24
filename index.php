@@ -36,7 +36,7 @@
   </main>
 
   <footer>
-    <p><a class="login" href="./empleados/login.php" data-i18n="login_employees">Acceso para trabajadores</a></p>
+    <p><a class="acceso-login" href="./empleados/login.php" data-i18n="login_employees">Acceso para trabajadores</a></p>
     <p data-i18n="footer"> 2026 Customizza | Proyecto 2º Desarrollo de Aplicaciones Web</p>
   </footer>
 

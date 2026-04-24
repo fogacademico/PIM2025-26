@@ -120,6 +120,11 @@ input:focus {
   outline-offset: 2px;
 }
 
+.acceso-login {
+  color:#e74c3c;
+  text-decoration: none;
+}
+
 /* LOGIN */
 .login {
   display: flex;
