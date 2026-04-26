@@ -9,7 +9,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   botonFormMesas.addEventListener("click", function(e){
     e.preventDefault();
-    if (!comensales.value || comensales.value < comensales.min || comensales.value > comensales.max){
+    if (!comensales.value || parseInt(comensales.value) < parseInt(comensales.min) || 
+      parseInt(comensales.value) > parseInt(comensales.max)){
       let alertaEs = "Debes elegir un número válido de comensales.";
       let alertaEn = "You must choose a valid number of guests."
       alert(`${alertaEs}\n${alertaEn}`);

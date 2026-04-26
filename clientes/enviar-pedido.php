@@ -4,9 +4,12 @@ session_start();
 require_once($_SERVER['DOCUMENT_ROOT'] . "/include/funciones.php");
 
 $tipos_pedido_validos = ["domicilio", "recoger"];
+$max_comensales = obtenerDatosMesas()["cantidad_mesas"] * obtenerDatosMesas()["comensales_por_mesa"];
 
 // Para poder detectar errores
 $listaErrores = [];
+
+ 
 
 date_default_timezone_set("Europe/Madrid");
 
@@ -35,16 +38,11 @@ if ($_SERVER['REQUEST_METHOD'] === "POST"){
     echo "<script src='../js/lang/lang-finalpedido.js'></script>";
     finHtml();
   }
-
-
-  // TODO: PROBABLEMENTE QUEDEN MÁS ERRORES  IMPORTANTES POR GESTIONAR. COMO DATOS INTRODUCIDOS INCORRECTOS
-
-
   else {
     $detalles_pedido = $_SESSION['detalles-pedido'];
     $tipo_pedido = $_POST['tipo_pedido'];
 
-    $nombre_cuenta = null; // Quizá hacer que coja la de la sesión de empleado abierta si hay?
+    $nombre_cuenta = null; 
     $nombre_cliente = null;
     if (isset($_POST['nombre_cliente'])){
       $nombre_cliente = filter_input(INPUT_POST, "nombre_cliente", FILTER_SANITIZE_SPECIAL_CHARS);

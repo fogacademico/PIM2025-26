@@ -14,7 +14,8 @@ document.addEventListener("DOMContentLoaded", () => {
       let alertaEn = "You must choose whether to make your order here or in the restaurant."
       alert(`${alertaEs}\n${alertaEn}`);
     }
-    else if (!comensales.value || comensales.value < comensales.min || comensales.value > comensales.max){
+    else if (!comensales.value || parseInt(comensales.value) < parseInt(comensales.min) || 
+      parseInt(comensales.value) > parseInt(comensales.max)){
       let alertaEs = "Debes elegir un número válido de comensales.";
       let alertaEn = "You must choose a valid number of guests."
       alert(`${alertaEs}\n${alertaEn}`);

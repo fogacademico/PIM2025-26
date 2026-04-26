@@ -86,7 +86,9 @@ if ($_SERVER['REQUEST_METHOD'] === "POST"){
     if ($tipo_pedido === "mesa"){
         $fecha_ahora = time() - 60; // Intento permitir así que se puedan hacer reservas para la hora actual, pero no para antes.
 
-        $fecha = DateTime::createFromFormat("Y-m-d H:i:s", $_POST['fecha']) ? $_POST['fecha'] : "";
+        $fecha_recibida = strlen($_POST['fecha']) === 17 ? $_POST['fecha'] . ":00" : $_POST['fecha'];
+
+        $fecha = DateTime::createFromFormat("Y-m-d H:i:s", $fecha_recibida) ? $fecha_recibida : "";
         $fecha = strtotime($fecha) > $fecha_ahora ? $fecha : false;
 
         $comensales = isset($_POST['comensales']) && intval($_POST['comensales']) > 0 ? 
@@ -101,10 +103,12 @@ if ($_SERVER['REQUEST_METHOD'] === "POST"){
             exit(6);
           }
           else if (!$fecha){
-            inicioHtml("Error al enviar pedido", []);
+            inicioHtml("Error al enviar pedido", ["../../style/lobby.css"]);
+            echo "<div class='container'>";
             echo "<h2 data-i18n='error_msg7'>No se ha recibido ninguna hora para reservar mesa o se ha recibido una incorrecta.</h2>";
             echo "<p><a href='../lobby.php' data-i18n='go_back'>Volver al menú principal.</a></p>";
-            echo "<script src='../js/lang/lang-finalpedido.js'></script>";
+            print_r($_POST);
+            echo "</div><script src='../js/lang/lang-finalpedido.js'></script>";
             finHtml();
             exit(7);
           };

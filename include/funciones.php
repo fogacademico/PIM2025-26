@@ -5,11 +5,11 @@ function obtenerClavesBD(){
   /* 
   DATOS DE LA BASE DEL ACCESO A LA BASE DE DATOS. Cambiarlos AQUÍ si es necesario
   */
-  $usuario_db = "if0_41738071"; // Nombre de la conexión con la base de datos
-  $clave_db = "NbHMjqJxKs"; // Contraseña de la conexión con la base de datos
-  $host_db = "sql312.infinityfree.com"; // Host de la base de datos.
+  $usuario_db = "root"; // Nombre de la conexión con la base de datos
+  $clave_db = "password"; // Contraseña de la conexión con la base de datos
+  $host_db = "localhost"; // Host de la base de datos.
   $puerto_db = "3306"; // Puerto de la base de datos
-  $nombre_db = "if0_41738071_customizza"; // Nombre de la base de datos a la que nos vamos a conectar
+  $nombre_db = "pizzeria"; // Nombre de la base de datos a la que nos vamos a conectar
   
 
   $dsn_db = "mysql:host=" . $host_db . ";port=" . $puerto_db . ";dbname=" . $nombre_db . ";charset=utf8mb4";
