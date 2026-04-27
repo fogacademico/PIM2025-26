@@ -430,28 +430,8 @@ if ($_SERVER['REQUEST_METHOD'] === "POST"){
     else if ($tipo_pedido === "mesa"){
       // INSERTAR TIPO DE PEDIDO: MESA
       $mesas = ubicarEnMesas($fecha, $comensales);
-      $lista_errores = asignarMesas($ultimo_pedido, $fecha, $mesas, $comensales, $lista_errores);
+      $lista_errores = asignarMesas($ultimo_pedido, $fecha, $mesas, $comensales);
 
-      /*
-// INSERTAR TIPO DE PEDIDO: MESA
-    
-    try { // TO FIX. DEFINIR UNA POLITICA DE RESERVAS CLARA
-      $pdo = new PDO($db_key[0], $db_key[1], $db_key[2], $db_key[3]);
-      $hora_reserva = date('Y-m-d H:i:s', time()); // ELIMINAR ESTA LÍNEA (?)
-      $sentence = "INSERT INTO mesa (id_pedido, nmesa, hora_reserva, comensales) ";
-      $sentence .= "VALUES (:ultimopedido, 21, :hora, 4)";
-      $stmt = $pdo->prepare($sentence);
-      $stmt->bindValue(":ultimopedido", $ultimo_pedido);
-      $stmt->bindValue(":hora", $hora_reserva);
-      $stmt -> execute();
-    }
-    catch(PDOException $pdoe) {$listaErrores = apuntarError($pdoe, $listaErrores);} 
-    finally {
-      $pdo = null;
-      $stmt = null;
-    }
-
-*/    
     };
     $_SESSION['npedido'] = $ultimo_pedido;
     $_SESSION['errores-intro-pedido'] = $listaErrores;

@@ -294,27 +294,30 @@ function avisaSiMesaLibre($nmesa){ // TO FIX. DEFINIR UNA POLITICA DE RESERVAS C
 };
 
 function ubicarEnMesas($fecha, $ncomensales){
+  $listaErrores = []; 
   $politica_mesas = obtenerDatosMesas();
-  $margen_reserva = date('Y-m-d H:i:s', strtotime($fecha) - ($politica_mesas['duracion_uso_mesa'] * 60));
+  $margen_reserva = date('Y-m-d H:i:s', strtotime($fecha) + ($politica_mesas['duracion_uso_mesa'] * 60));
   $mesas_existentes = range(1, 10);
   $mesas_ocupadas = [];
   $db_key = obtenerClavesBD();
   try {
     $pdo = new PDO($db_key[0], $db_key[1], $db_key[2], $db_key[3]);
     $sentence = "SELECT me.nmesa FROM mesa AS me INNER JOIN pedido AS pe ON me.id_pedido = pe.id_pedido ";
-    $sentence .= "WHERE pe.estado != 'cancelado' AND me.hora_reserva <= :fecha_r AND me.hora_reserva >= :margen_r";
+    // $sentence .= "WHERE me.hora_reserva >= :fecha_r AND me.hora_reserva <= :margen_r";
+    // AND (pe.estado != 'cancelado' OR pe.estado IS NULL)
     $stmt = $pdo->prepare($sentence);
-    $stmt->bindValue(":fecha_r", $fecha);
-    $stmt->bindValue(":margen_r", $margen_reserva);
+    // $stmt->bindValue(":fecha_r", $fecha);
+    // $stmt->bindValue(":margen_r", $margen_reserva);
     $stmt->execute();
     $filas = $stmt->fetchAll();
     foreach ($filas as $fila){$mesas_ocupadas[] = $fila['nmesa'];};
   }
-  catch (PDOException $pdoe){apuntarError($pdoe, []);}
+  catch (PDOException $pdoe){apuntarError($pdoe, $listaErrores);}
   finally {
     $pdo = null;
     $stmt = null;
     if (array_diff($mesas_existentes, $mesas_ocupadas) === []){return false;}
+    else if ($listaErrores != []){return $listaErrores;}
     else {
       $mesas_disponibles = array_diff($mesas_existentes, $mesas_ocupadas);
       $mesas_requeridas = intdiv($ncomensales, $politica_mesas['comensales_por_mesa']) + 
@@ -323,7 +326,7 @@ function ubicarEnMesas($fecha, $ncomensales){
       else {
         $mesas_asignables = [];
         for($i=0;$i<$mesas_requeridas;$i++){$mesas_asignables[] = $mesas_disponibles[$i];};
-        return $mesas_asignables;
+        return $filas;
       };
     };
   };

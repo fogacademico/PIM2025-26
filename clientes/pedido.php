@@ -87,7 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && $_GET['tipo'] === "mesa"){
       <span data-i18n="guests">Elige número de comensales: </span>
       <input required type="number" id="elegir_comensales" name="elegir_comensales" 
       min="1" max="<?= $max_comensales ?>" value="1" required><br/>
-      <input data-i18n-placeholder="phone" type="tel" id="number" name="tlf" placeholder="Teléfono" min="1" max="999999999" required>
+      <input data-i18n-placeholder="phone" type="tel" id="tlf" name="tlf" placeholder="Teléfono" min="1" max="999999999" required>
       <input data-i18n-placeholder="customer_name" type="text" id="nombre_cliente" name="nombre_cliente" placeholder="Pedido a nombre de..." required>
       <input type="submit" id="operacion" name="operacion" data-i18n-value="submit_button" value="Continuar">
     </form>

@@ -7,12 +7,14 @@ let translations = {
         error_msg5: "Domicilio no especificado en un pedido a domicilio.",
         error_msg6: "No se ha recibido ningún número de comensales o se ha recibido uno incorrecto.",
         error_msg7: "No se ha recibido ninguna hora para reservar mesa o se ha recibido una incorrecta.",
+        error_msg8: "No hay mesas suficientes a esa hora para tu grupo. Por favor, elija otra hora.",
         phone_text: "Teléfono de Customizza: ",
         success_msg1: "Lograste enviar un pedido.",
         success_msg2: "El número de tu último pedido es el",
         order_info1: "Un encargo promedio suele tardar entre 5 y 15 minutos en prepararse para recoger en local y entre 25 y 40 minutos en prepararse y entregarse a domicilio.",
         order_info2: "Customizza se reserva el derecho de no aceptar pedidos muy grandes. Si disponemos de un número de teléfono, te avisaremos por llamada. Las cancelaciones se hacen por teléfono o en persona.",
         go_back: "Volver al menú principal.",
+        goback_tables: "Volver al menú de selección de mesa.",
     },
     en: {
         error_msg1: "An error occurred while your order was being sent. Phone Customizza or contact with an employee at the restaurant to check out if your order has been received correctly.",
@@ -22,12 +24,14 @@ let translations = {
         error_msg5: "Unspecified address in a delivery order.",
         error_msg6: "Number of guests not sent or wrong.",
         error_msg7: "Table booking hour not sent or wrong.",
+        error_msg8: "There are not enough available tables for your group at this date and hour. Please, appoint another date and/or hour.",
         phone_text: "Customizza's phone number: ",
         success_msg1: "You sent an order successfully.",
         success_msg2: "Your last order number is",
         order_info1: "An average order usually takes between 5 and 15 minutes to be good to go at the restaurant, and between 25 and 40 minutes to be prepared and delivered.",
         order_info2: "Customizza may not accept orders if they contain too many products. If you have sent us a phone number, we will call you to inform you about your order. Orders can only be cancelled by phone or in person.",
         go_back: "Go back to the main menu.",
+        go_back: "Go back to the table booking menu.",
     }
 };
 

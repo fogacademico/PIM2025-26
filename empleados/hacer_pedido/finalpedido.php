@@ -25,7 +25,6 @@ $npedido = $_SESSION['npedido'];
 
 $listaErrores = $_SESSION['errores-intro-pedido'];
 
-$_SESSION['detalles-pedido'] = null;
 $_SESSION['errores-intro-pedido'] = null;
 
 inicioHtml("Customizza. Fin pedido", ["../../style/finpedido.css"]);
@@ -52,6 +51,10 @@ else {
   <p data-i18n="order_info2">Customizza se reserva el derecho de no aceptar pedidos muy grandes. Si disponemos de un número de teléfono,
     te avisaremos por llamada. Las cancelaciones se hacen por teléfono o en persona.<p>
   <p><span data-i18n='phone_text'>Teléfono de Customizza: </span>957420111<p>
+  <form action="../../fpdf/recibo.php" method="POST">
+      <input type="hidden" id="npedido" name="npedido" value="<?= $npedido ?>">
+      <input type="submit" id="operacion" name="operacion" value="Descargar Recibo">
+    </form>
   </div>
   <?php
 };

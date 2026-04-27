@@ -1,0 +1,1 @@
+<p><a href="recibo.php">Descargar recibo del pedido</a></p>

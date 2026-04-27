@@ -56,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST"){
     finHtml();
   }
   else if (!$fecha){
-    inicioHtml("Error al enviar pedido", ["../style/lobby.css"]);
+    inicioHtml("Error al enviar pedido", ["../../style/lobby.css"]);
     echo "<div class='container'>";
     echo "<h2 data-i18n='error_msg7'>No se ha recibido ninguna hora para reservar mesa o se ha recibido una incorrecta.</h2>";
     echo "<p>-<a class='opcion-navegacion' href='../lobby.php' data-i18n='go_back'>Volver al menú principal.</a></p></div>";
@@ -74,13 +74,16 @@ if ($_SERVER['REQUEST_METHOD'] === "POST"){
     $id_prod = 1;
 
     if (!ubicarEnMesas($fecha, $comensales)){
-     inicioHtml("Customizza. Mesas no disponibles", ["../style/css2.css"]);
+     inicioHtml("Customizza. Mesas no disponibles", ["../../style/lobby.css"]);
      ?>
-     <img id="boton-es" src="../imgs/banderaesp.png" class="boton-idioma">
-     <img id="boton-en" src="../imgs/banderauk.jpg" class="boton-idioma">
+     <img id="boton-es" src="../../imgs/banderaesp.png" class="boton-idioma">
+     <img id="boton-en" src="../../imgs/banderauk.jpg" class="boton-idioma">
+     <div class='container'>
      <p><?= $fecha ?></p>
-     <p>No hay mesas suficientes a esa hora para tu grupo. Por favor, elija otra hora.</p>
-     <p><a href='pedido.php?tipo=mesa'>Volver al menú de selección de mesa.</a></p>
+     <p data-i18n='error_msg8'>No hay mesas suficientes a esa hora para tu grupo. Por favor, elija otra hora.</p>
+     <p>-<a class="opcion-navegacion" data-i18n='goback_tables' href='pedido.php?tipo=mesa'>Volver al menú de selección de mesa.</a></p>
+     <script src="../../js/lang/lang-finalpedido.js"></script>
+    </div>
      <?php
      finHtml(); 
     }
