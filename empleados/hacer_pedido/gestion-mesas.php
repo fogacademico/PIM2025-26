@@ -190,7 +190,6 @@ if ($_SERVER['REQUEST_METHOD'] === "POST"){
     }
   else if (isset($_POST['tipo_reserva']) && $_POST['tipo_reserva'] === "pedir_ya"){
     inicioHtml("Customizza", []);
-    print_r($_POST);
     ?>
     <form id="datos-mesas" action="./seleccion.php" method="POST">
       <input type="hidden" id="tipo_pedido" name="tipo_pedido" value="<?= $tipo_pedido ?>">
@@ -204,9 +203,8 @@ if ($_SERVER['REQUEST_METHOD'] === "POST"){
     <?php
     finHtml();
   }
-  // TODO: ESTO SERÁ TRATAMIENTO DE ERRORES. HACER LUEGO
   else {
-    echo "<p>traza: algo falla</p>";
+    echo "<p>Error no identificado</p>";
     foreach($_POST as $clave => $valor){
       echo "<p>$clave -> $valor</p>";
     };
