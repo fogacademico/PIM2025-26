@@ -303,11 +303,10 @@ function ubicarEnMesas($fecha, $ncomensales){
   try {
     $pdo = new PDO($db_key[0], $db_key[1], $db_key[2], $db_key[3]);
     $sentence = "SELECT me.nmesa FROM mesa AS me INNER JOIN pedido AS pe ON me.id_pedido = pe.id_pedido ";
-    // $sentence .= "WHERE me.hora_reserva >= :fecha_r AND me.hora_reserva <= :margen_r";
-    // AND (pe.estado != 'cancelado' OR pe.estado IS NULL)
+    $sentence .= "WHERE me.hora_reserva >= :fecha_r AND me.hora_reserva <= :margen_r AND (pe.estado != 'cancelado' OR pe.estado IS NULL)";
     $stmt = $pdo->prepare($sentence);
-    // $stmt->bindValue(":fecha_r", $fecha);
-    // $stmt->bindValue(":margen_r", $margen_reserva);
+    $stmt->bindValue(":fecha_r", $fecha);
+    $stmt->bindValue(":margen_r", $margen_reserva);
     $stmt->execute();
     $filas = $stmt->fetchAll();
     foreach ($filas as $fila){$mesas_ocupadas[] = $fila['nmesa'];};
@@ -319,14 +318,16 @@ function ubicarEnMesas($fecha, $ncomensales){
     if (array_diff($mesas_existentes, $mesas_ocupadas) === []){return false;}
     else if ($listaErrores != []){return $listaErrores;}
     else {
-      $mesas_disponibles = array_diff($mesas_existentes, $mesas_ocupadas);
+      $mesas_disponibles_base = array_diff($mesas_existentes, $mesas_ocupadas); // Conserva las claves de $mesas_existentes
+      $mesas_disponibles = []; // En estas dos líneas les cambiamos las claves
+      foreach($mesas_disponibles_base as $m){array_push($mesas_disponibles, $m);};
       $mesas_requeridas = intdiv($ncomensales, $politica_mesas['comensales_por_mesa']) + 
       ($ncomensales % $politica_mesas['comensales_por_mesa'] ? 1 : 0);
       if (sizeof($mesas_disponibles) < $mesas_requeridas){return false;}
       else {
         $mesas_asignables = [];
         for($i=0;$i<$mesas_requeridas;$i++){$mesas_asignables[] = $mesas_disponibles[$i];};
-        return $filas;
+        return $mesas_asignables;
       };
     };
   };

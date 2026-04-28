@@ -184,6 +184,11 @@ if ($_SERVER['REQUEST_METHOD'] === "POST"){
       $_SESSION['npedido'] = $ultimo_pedido;
       $_SESSION['errores-intro-pedido'] = $lista_errores; 
 
+      $_SESSION['detalles-pedido'] = [
+        "productos" => [["cantidad" => 1, "precio_ud" => 0.00, "nombre" => "Reserva de mesa"]],
+        "pizzas" => [],
+      ];
+
       header("Location: finalpedido.php");
     };
 

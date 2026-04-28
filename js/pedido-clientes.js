@@ -11,13 +11,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   botonFormMesas.addEventListener("click", function(e){
     e.preventDefault();
+    console.log(tlf);
     if (!comensales.value || parseInt(comensales.value) < parseInt(comensales.min) || 
       parseInt(comensales.value) > parseInt(comensales.max)){
       let alertaEs = "Debes elegir un número válido de comensales.";
       let alertaEn = "You must choose a valid number of guests."
       alert(`${alertaEs}\n${alertaEn}`);
     }
-    else if (tlf.value === 0 || tlf.value === "" || nombreCliente.value === ""){
+    else if ( nombreCliente.value === ""){
      alert("Deben introducirse todos los datos.\nAll of the fields are required.");
     }
     else {
